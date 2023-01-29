@@ -1,15 +1,14 @@
-from .hal import HALComponent
+from HAL.hal import HALComponent
 
+#
+#     Virtual components provide functionality above and beyond the basic GPIO type functions.
+#
+# GroupToggle - Toggle a group of HALComponents between "on" and "off" states
+# GeneratorSawTooth - Generate a sawtooth waveform
+# TripWire - Sets an "on" state if a sensor passes a threshold, otherwise "off"
+# IfThisThen - Very powerful, generic If this, then that type component to create complex behaviours
 
-"""
-    Virtual components provide functionality above and beyond the basic GPIO type functions.
-
-GroupToggle - Toggle a group of HALComponents between "on" and "off" states
-GeneratorSawTooth - Generate a sawtooth waveform
-TripWire - Sets an "on" state if a sensor passes a threshold, otherwise "off"
-IfThisThen - Very powerful, generic If this, then that type component to create complex behaviours
-
-"""
+# TODO: Review, clean-up and refactoring
 
 
 class Group(object):

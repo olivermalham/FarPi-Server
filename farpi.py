@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 class FarPiStateHandler(tornado.websocket.WebSocketHandler):
     """ Core of the FarPi system
 
-    Handles and dispatches messages in-coming from the JS client. Also the kicking off point for refreshing the
+    Handles and dispatches messages in-coming from the JS client, as well as the kicking off point for refreshing the
     state vector and broadcasting it to all listeners.
 
     """

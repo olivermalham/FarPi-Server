@@ -1,4 +1,3 @@
-import sys
 import serial
 import lewansoul_lx16a
 from time import sleep

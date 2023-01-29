@@ -1,9 +1,9 @@
-from .hal import *
-from .basic_pi import *
+from HAL.base import *
 import pigpio
 
-# TODO: Add a smooth-servo component that uses cubic hermite interpolation to smooth the movement. Ideally in a way
-# TODO: that keeps all servos movements synchronised.
+# FIXME: This needs to be finished! Doesn't currently output to a servo
+# Add a smooth-servo component that uses cubic hermite interpolation to smooth the movement. Ideally in a way
+# that keeps all servos movements synchronised.
 
 
 class Servo(HALComponent):
@@ -127,21 +127,3 @@ class IndexedServo(HALComponent):
             self.state = self._index[self.current_index] * (self._upper_bound - self._lower_bound) + self._lower_bound
             hal.pi.set_servo_pulsewidth(self._pin_number, self.state)
             self._update = False
-
-
-class ServoHAL(BasicPi):
-    """ Slightly more specialised HAL that uses pigio for multi-channel servo control.
-
-    Note that the pigpio daemon needs to be running on the localhost, port 7777.
-    All this does over the standard HAL is connect to the pigpio daemon.
-
-    """
-    def __init__(self, *args, **kwargs):
-        super(ServoHAL, self).__init__(*args, **kwargs)
-        self.pi = pigpio.pi('localhost', 7777)
-
-        self.servo1 = Servo(pin=3)
-        self.servo2 = IndexedServo(pin=4, positions=[0.0, 0.25, 0.50, 0.75, 1.0])
-
-    def clean_up(self):
-        pass

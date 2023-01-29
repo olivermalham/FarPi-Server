@@ -8,18 +8,7 @@ class HAL(object):
         Rather than implement the state vector as a nested dictionary of named values,
         HAL uses object introspection to work with itself directly.
         HALComponent subclasses are added to a HAL subclass as class attributes.
-        Should be a singleton class, created in the settings file.
         Coercing this class into a string serialises into JSON.
-
-        Idea:
-
-        RaspBerryPi(HAL):
-            gpio01 = RPIO_GPIOpin(1)
-            gpio02 = RPIO_GPIOpin(2)
-            gpio03 = RPIO_GPIOpin(3)
-            gpio04 = RPIO_GPIOpin(4)
-            gpio05 = RPIO_GPIOpin(5)
-            temp = I2CThermistor(bus address)
     """
 
     def __init__(self, *args, **kwargs):
@@ -43,6 +32,7 @@ class HAL(object):
 
         Name is treated as a valid python attribute reference. It is assumed that
         the FarPi server has already checked the string for security.
+
         :param name: String containing the name of the action to invoke
         :param kwargs: One or more key word arguments, decoded from JSON
         :return: Nothing
@@ -68,7 +58,7 @@ class HAL(object):
                     result = result + '"{}":"{}",'.format(entry_name, str(entry))
         result = result[:-1] + "}"
 
-        # Clear the message text now that its been serialised and sent to the client.
+        # Clear the message text now that it's been serialised and sent to the client.
         self.message = ""
         self.error = ""
 
@@ -76,8 +66,8 @@ class HAL(object):
 
     def refresh(self):
         """ Refresh the state vector to the current hardware state.
+            Runs through all active HALComponents and call their refresh methods
 
-            Run through all active HALComponents and call their refresh methods
         :return: Nothing
         """
         self.cycle += 1

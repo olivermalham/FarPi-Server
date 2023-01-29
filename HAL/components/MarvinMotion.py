@@ -1,10 +1,8 @@
 from collections import namedtuple
 import serial
 # from time import sleep
-from .hal import *
-from .virtual import *
-from .servo_lib.lewansoul_lx16a import ServoController
-from .basic_pi import BasicConsole
+from HAL.components.virtual import *
+from HAL.components.libs.lewan_servo.lewansoul_lx16a import ServoController
 
 # UART serial port for servo bus
 SERVO_SERIAL_PORT = '/dev/serial0'
@@ -20,45 +18,23 @@ HEAD_PITCH = 6
 ServoCalib = namedtuple("ServoCalib", "scale origin limit_low limit_high")
 
 
-class MarvinGPIO(HALComponent):
-    """ Basic GPIO pin.
-
-    """
-    def __init__(self, pin_number=1, direction=True, pull=None, *args, **kwargs):
-        super(HALComponent, self).__init__()
-        self.state = False
-        self._pin_number = pin_number
-        self._direction = direction
-
-    def refresh(self, hal):
-        # self.state = not self.state
-        # if self._direction:
-        #    self.state = state
-        pass
-
-    def action_toggle(self, hal):
-        self.state = not self.state
-        hal.message = f"Pin {self._pin_number} toggled; now:{self.state}"
-
-    def action_set(self, value, hal):
-        hal.message = "BasicPiGPIO action_set value:{}".format(value)
-        self.state = bool(value)
-
-
+# FIXME: This isn't finished yet!
 class MarvinMotion(HALComponent):
-    """ Component that communicates with the Marvin-core subsystem to handle low level movement 
+    """ Motion controller for the Marvin rover project. Six-wheel drive, four wheel steering with 2 axis head control.
+    Uses Lewansoul LX16a serial bus robotics servos, and a custom RPi Pico controller driving the wheel motors.
     """
+
     def __init__(self):
         super(HALComponent, self).__init__()
 
         # self._motion_fifo = open("/etc/marvin/motion", "w")
         # self._motion_fifo = open("/etc/marvin/motion_test", "w")
 
-        self._motion_packet = { "move": {"distance": 0, "speed": 0.0},
-                                "turn": {"angle": 0, "speed": 0.0},
-                                "head": {"pitch": 0, "yaw": 0},
-                                "action": None
-                                }
+        self._motion_packet = {"move": {"distance": 0, "speed": 0.0},
+                               "turn": {"angle": 0, "speed": 0.0},
+                               "head": {"pitch": 0, "yaw": 0},
+                               "action": None
+                               }
 
         # Servo calibration settings for converting from degrees to servo units
         # Note that entry 0 is None as we're mapping servo id's here, which start at 1
@@ -106,7 +82,7 @@ class MarvinMotion(HALComponent):
         command = command + f"M6,D{dist},V{vel};"
 
         self._update_motors(command)
-    
+
     def action_turn(self, hal, **kwargs):
         print(f"Received marvin motion command")
         hal.message = f"Marvin Motion - {kwargs}"
@@ -158,7 +134,7 @@ class MarvinMotion(HALComponent):
         print(f"Received marvin hard stop command")
         hal.message = f"Marvin hard stop!"
         self._update_motors("HARDSTOP;")
-    
+
     def action_head_center(self, hal):
         print(f"Received marvin head motion command")
         hal.message = f"Marvin Head Center"
@@ -192,30 +168,3 @@ class MarvinMotion(HALComponent):
         """ Convert the given servo position in degrees into servo units. """
         angle = (position - self.servo_calib[servo_no].origin) / self.servo_calib[servo_no].scale
         return angle
-
-
-class MarvinHAL(HAL):
-    """ Mock HAL class for simulating basic Raspberry Pi hardware.
-
-    """
-
-    def __init__(self):
-        # Make sure the HAL system is initialised fully first
-        super(MarvinHAL, self).__init__()
-
-        # We're using the BCM pin number scheme
-
-        # Add all the GPIO pins, setting pin number and direction
-        self.bcm00 = MarvinGPIO(pin_number=0, directon=0)
-        self.bcm01 = MarvinGPIO(pin_number=1, directon=0)
-        self.bcm02 = MarvinGPIO(pin_number=2, directon=0)
-        self.bcm03 = MarvinGPIO(pin_number=3, directon=0)
-        self.bcm04 = MarvinGPIO(pin_number=4, directon=0)
-
-        self.wave = GeneratorSquareWave()
-        self.commandLine = BasicConsole()
-
-        self.motion = MarvinMotion()
-
-    def clean_up(self):
-        super(MarvinHAL, self).clean_up()
