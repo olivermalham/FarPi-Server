@@ -1,12 +1,17 @@
 from .hal import *
 from HAL.components.virtual import *
-from RPi import GPIO
+
+
+# If we can't import the RPI GPIO functionality, assume we're mocking
+try:
+    from RPi import GPIO
+except ImportError:
+    print("FAILED TO IMPORT RPi.GPIO, using MockRPIGPIO")
+    from HAL.components.mock_pi import MockRPIGPIO as GPIO
 
 
 class BaseGPIO(HALComponent):
-    """ Basic GPIO pin.
-
-    """
+    """ Basic GPIO pin """
     def __init__(self, pin_number=1, direction=GPIO.OUT, pull=None, *args, **kwargs):
         super(HALComponent, self).__init__()
         self.state = False
@@ -33,8 +38,7 @@ class BaseGPIO(HALComponent):
 
 
 class BaseConsole(HALComponent):
-    """ HAL component that processes commands sent from the client
-    """
+    """ HAL component that processes commands sent from the client """
 
     def __init__(self):
         super(HALComponent, self).__init__()

@@ -1,4 +1,5 @@
 # Import the default settings from base_app
+from apps.base_app import *
 
 # The Hardware Abstraction Layer (HAL) package represents the hardware attached to the server
 # that the user will interact with via the UI

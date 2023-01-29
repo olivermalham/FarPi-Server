@@ -1,3 +1,4 @@
+import HAL.components.gps
 from .hal import *
 from HAL.components.virtual import *
 from HAL.components.MarvinMotion import MarvinMotion
@@ -5,7 +6,7 @@ from .base import BaseConsole, BaseGPIO
 
 
 class MarvinHAL(HAL):
-    """ Mock HAL class for simulating basic Raspberry Pi hardware.
+    """ HAL class for the Marvin rover project.
 
     """
 
@@ -24,7 +25,8 @@ class MarvinHAL(HAL):
         self.wave = GeneratorSquareWave()
         self.commandLine = BaseConsole()
 
-        self.motion = MarvinMotion()
+        # self.motion = MarvinMotion()
+        # self.gps = HAL.components.gps.GPS()
 
     def clean_up(self):
         super(MarvinHAL, self).clean_up()

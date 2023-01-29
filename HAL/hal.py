@@ -1,7 +1,7 @@
 import json
 
 
-class HAL(object):
+class HAL:
     """ Hardware Abstraction Layer
 
         Provides a framework for HAL components to interact with the state vector.
@@ -53,9 +53,9 @@ class HAL(object):
             entry = getattr(self, entry_name)
             if not callable(entry) and not entry_name.startswith("_"):
                 if issubclass(entry.__class__, HALComponent):
-                    result = result + '"{}":{},'.format(entry_name, entry.serialise(entry_name))
+                    result = f'{result}"{entry_name}":{entry.serialise(entry_name)},'
                 else:
-                    result = result + '"{}":"{}",'.format(entry_name, str(entry))
+                    result = f'{result}"{entry_name}":{str(entry)},'
         result = result[:-1] + "}"
 
         # Clear the message text now that it's been serialised and sent to the client.
@@ -96,7 +96,7 @@ class HALComponent(object):
                 if not callable(attribute):
                     result[entry] = attribute
                 elif entry.startswith("action_"):
-                    actions.append("{}.{}".format(instance_name, entry))
+                    actions.append(f"{instance_name}.{entry}")
         result["actions"] = actions
         return json.dumps(result)
 

@@ -87,3 +87,5 @@ FarPi is still in the very early stages of development, and there is much left t
 5. Create a component to handle serial GPS module
 6. Create a pipfile and get the code into a decent shape for others to use
 7. Review documentation
+8. Complete review, cleanup and refactor of the camera streams system
+9. 

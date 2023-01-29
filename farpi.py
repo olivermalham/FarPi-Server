@@ -112,7 +112,7 @@ if __name__ == "__main__":
     print(" FarPi Server v0.1")
     print("-------------------")
     time = datetime.datetime.now()
-    print("Starting at",time.isoformat())
+    print("Starting at", time.isoformat())
 
     if len(sys.argv) != 2:
         print("No application specified!")
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
     print("Loading Application {}".format(app_name))
     try:
-        application = importlib.import_module(app_name)
+        application = importlib.import_module(f"apps.{app_name}")
 
     except Exception:
         print("Error loading {}!".format(app_name))

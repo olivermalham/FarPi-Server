@@ -1,5 +1,7 @@
 # The Hardware Abstraction Layer (HAL) package represents the hardware attached to the server
 # that the user will interact with via the UI
+from apps.base_app import *
+
 from HAL.base import BaseHAL
 
 # Number of milliseconds to delay between updates to clients
