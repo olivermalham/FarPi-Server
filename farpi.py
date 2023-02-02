@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import os
 import sys
 import importlib
 import logging
@@ -12,6 +12,23 @@ import tornado.web
 import tornado.websocket
 
 log = logging.getLogger(__name__)
+
+
+# Tornado server settings
+settings = {
+    "static_path": os.path.join(os.path.dirname(__file__), "html/"),
+    "default_filename": "index.html",
+    "cookie_secret": "__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
+    "login_url": "/login",
+    "xsrf_cookies": False,
+}
+
+# Web server paths
+paths = {}
+
+# The TCP/IP Port number that the server will listen on
+port = 8888
+
 
 
 class FarPiStateHandler(tornado.websocket.WebSocketHandler):
@@ -106,6 +123,24 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
             client.write_message(application.hal.serialise())
 
 
+class FarPiGUIHandler(tornado.web.RequestHandler):
+    """
+    """
+    def get(self, extension):
+        if extension is None or \
+           extension == "" or \
+           extension.upper() == '.HTML' or \
+           extension.upper() == '.HTM':
+            result = application.ui()[0]
+            self.write(result)
+        elif extension.upper() == '.JS':
+            self.write(application.ui()[1])
+        elif extension.upper() == '.CSS':
+            self.write(application.ui()[2])
+        else:
+            print("Error, unknown extension ({})".format(extension))
+
+
 if __name__ == "__main__":
     # TODO: Need to implement proper logging
     print("-------------------")
@@ -132,14 +167,25 @@ if __name__ == "__main__":
         exit()
 
     # TODO: Need a better way of configuring the URLs in the application package
-    urls = [
-        (r"/farpi", FarPiStateHandler),
-        (r"/(.*)", tornado.web.StaticFileHandler,
-         dict(path=application.settings['static_path'], default_filename='index.html')),
+
+    if hasattr(application, "ui"):
+        print("UI Enabled, setting up URLS...")
+        urls = [
+            (r"/farpi", FarPiStateHandler),
+            (r"/farpiGUI(.*)", FarPiGUIHandler),
+            (r"/js/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + 'js/', default_filename='index.html')),
+            (r"/css/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + 'css/', default_filename='index.html')),
+            (r"/(.*)", FarPiGUIHandler)
+        ]
+    else:
+        print("No UI enabled, backend server only")
+        urls = [
+            (r"/farpi", FarPiStateHandler),
+            (r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'], default_filename='index.html'))
         ]
 
     # Create the Tornado application, start it listening on the configured port
-    app = tornado.web.Application(urls, **application.settings)
+    app = tornado.web.Application(urls, **settings)
     app.listen(application.port)
 
     # Create a periodic callback for refreshing the HAL and broadcasting it to all connected clients

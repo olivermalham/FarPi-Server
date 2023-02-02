@@ -1,11 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>FarPI</title>
+    <title>FarPi</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+    <script src="/js/farpi.js"></script>
+    <script src="/farpiGUI.js"></script>
+    <link rel="stylesheet" href="/css/farpi.css">
+
 </head>
-<body>
-<h1>FarPi</h1>
-<p>Nothing to see here, static placeholder</p>
+<body onload="FarPi.onLoad('ws://localhost:8888/farpi');">
+
+<div id="title">- FarPi -</div>
+<hr />
+<center>
+<div>
+    <strong>Message to Send:</strong>&nbsp;<input type="text" id="msg" />
+    &nbsp;<input type="button" onclick="FarPi.sendMsg();" value="Send" />
+</div>
+<div id="message_content">{{message_content}}</div>
+</center>
 </body>
 </html>

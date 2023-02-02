@@ -54,8 +54,10 @@ class HAL:
             if not callable(entry) and not entry_name.startswith("_"):
                 if issubclass(entry.__class__, HALComponent):
                     result = f'{result}"{entry_name}":{entry.serialise(entry_name)},'
+                elif type(entry) is str and len(entry) == 0:
+                    result = f'{result}"{entry_name}":"",'
                 else:
-                    result = f'{result}"{entry_name}":{str(entry)},'
+                    result = f'{result}"{entry_name}":"{str(entry)}",'
         result = result[:-1] + "}"
 
         # Clear the message text now that it's been serialised and sent to the client.

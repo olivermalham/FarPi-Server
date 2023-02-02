@@ -31,22 +31,32 @@ class MockRPIGPIO:
     OUT = 1
     IN = 0
 
+    BCM = "Dummy"
+
+    pin_value = {}
+
     def __init__(self):
-        pass
+        self.pin_value = {}
 
-    @staticmethod
-    def setup(pin_number=0, direction=1, pull_up_down=1):
+    @classmethod
+    def setup(cls, pin_number=0, direction=1, pull_up_down=1):
         print(f"Mock RPi.GPIO setup pin: {pin_number}; direction: {direction}; pull: {pull_up_down}", flush=True)
+        cls.pin_value[pin_number] = 0
 
-    @staticmethod
-    def output(pin_number=0, value=0):
-        print(f"Mock RPi.GPIO setup pin: {pin_number}; value: {value}", flush=True)
+    @classmethod
+    def output(cls, pin_number=0, value=0):
+        print(f"Mock RPi.GPIO output pin: {pin_number}; value: {value}", flush=True)
+        cls.pin_value[pin_number] = value
 
-    @staticmethod
-    def input(pin_number=0):
+    @classmethod
+    def input(cls, pin_number=0):
         print(f"Mock RPi.GPIO input: {pin_number}", flush=True)
-        return True
+        return cls.pin_value[pin_number]
 
     @staticmethod
     def cleanup():
         print(f"Mock RPi.GPIO cleanup", flush=True)
+
+    @staticmethod
+    def setmode(mode):
+        print(f"Mock RPi.GPIO setmode {mode}", flush=True)
