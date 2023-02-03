@@ -62,16 +62,16 @@ class Container(object):
     # These should all be strings with {param} placeholders for the .format operator
 
     # Opening HTML fragment for the main container
-    _prefix="""<div>\n"""
+    _prefix = """<div>\n"""
 
     # Closing HTML fragment for the main container
-    _postfix="""\n</div>\n"""
+    _postfix = """\n</div>\n"""
 
     # HTML fragment added immediately before each child HTML section
-    _child_prefix=""""""
+    _child_prefix = """"""
 
     # HTML fragment added immediately after each child HTML section
-    _child_postfix=""""""
+    _child_postfix = """"""
 
     # Javascript template to provide extra functionality not available in the base code. Optional.
     _javascript = ""
@@ -87,7 +87,7 @@ class Container(object):
     _parameters = {}
 
     def __init__(self, *args, **kwargs):
-        """ Wraps all child element HTML in it's own.
+        """ Wraps all child element HTML in its own.
         All positional arguments are assumed to be Component subclasses.
         Keyword arguments are used to populate template parameters.
 

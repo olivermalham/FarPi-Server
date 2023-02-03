@@ -30,7 +30,6 @@ paths = {}
 port = 8888
 
 
-
 class FarPiStateHandler(tornado.websocket.WebSocketHandler):
     """ Core of the FarPi system
 
@@ -165,8 +164,6 @@ if __name__ == "__main__":
         print("Error loading {}!".format(app_name))
         traceback.print_exc()
         exit()
-
-    # TODO: Need a better way of configuring the URLs in the application package
 
     if hasattr(application, "ui"):
         print("UI Enabled, setting up URLS...")
