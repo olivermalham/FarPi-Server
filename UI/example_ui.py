@@ -1,4 +1,4 @@
-from themes.neon import *
+from .themes.neon import *
 
 """
     Very simple panel which just shows one of each vanilla control.
@@ -12,7 +12,6 @@ ui = Panel(
             ),
         Row(
                 LineGauge(source="dummy", label="Line Gauge"),
-                ArcGauge(source="dummy", label="Arc Gauge")
         ),
         Row(
                 MessageBox()

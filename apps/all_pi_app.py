@@ -9,5 +9,4 @@ refresh_ms = 500
 
 # Create the HAL object that interfaces with the hardware
 hal = BaseHAL()
-
 ui = all_pi.ui

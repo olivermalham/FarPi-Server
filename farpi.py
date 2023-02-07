@@ -172,7 +172,8 @@ if __name__ == "__main__":
             (r"/farpiGUI(.*)", FarPiGUIHandler),
             (r"/js/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + 'js/', default_filename='index.html')),
             (r"/css/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + 'css/', default_filename='index.html')),
-            (r"/(.*)", FarPiGUIHandler)
+            (r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'], default_filename='index.html')),
+            # (r"/(.*)", FarPiGUIHandler)
         ]
     else:
         print("No UI enabled, backend server only")
