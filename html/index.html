@@ -11,19 +11,18 @@
 </head>
 <body>
 
-<farpi-console server="ws://localhost:8888/farpi">
-    <div class="HeartBeat" id="HeartBeat">- FarPi -</div>
+<farpi-root server="ws://localhost:8888/farpi">
+    <farpi-heartbeat></farpi-heartbeat>
 
     <div>- FarPi Webcomponents Test -</div>
     <hr />
 
-    <farpi-switch source="bcm01"></farpi-switch>
-    <farpi-switch source="bcm02"></farpi-switch>
-    <farpi-switch source="bcm03"></farpi-switch>
+    <farpi-switch source="bcm01" label="Switch 1"></farpi-switch>
+    <farpi-switch source="bcm02" label="Switch 2"></farpi-switch>
+    <farpi-switch source="bcm03" label="Another Switch"></farpi-switch>
 
 
-</farpi-console>
+</farpi-root>
 </body>
 
 </html>
-

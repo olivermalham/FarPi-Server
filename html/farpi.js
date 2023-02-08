@@ -18,17 +18,6 @@ class FarPi extends HTMLElement {
         this.socket.send("{\"action\":\""+target+"\", \"parameters\":{"+args+"}}");
     }
 
-    registerCallback(callback){
-        this._callbacks.push(callback);
-    }
-
-    heartbeat() {
-        let heartbeat_element = document.getElementById("HeartBeat");
-        if(FarPi.state["cycle"] % 2){
-            heartbeat_element.classList.toggle("HeartBeatGlow");
-        }
-    }
-
     trap_context() {
         event = window.event;
         event.preventDefault();
@@ -42,21 +31,24 @@ class FarPi extends HTMLElement {
         this.socket = new WebSocket(address);
         console.log("FarPi connected to "+address);
 
-        // Assumes there is only one farpi-console element
-        let farpiConsole = document.getElementsByTagName("farpi-console")[0];
+        // Assumes there is only one farpi-root element, any more will be ignored
+        let farpiRoot = document.getElementsByTagName("farpi-root")[0];
 
         // Get all elements with the _farPiComponent class, automatically added by FarPi webcomponents
-        this.socket.farpiControls = farpiConsole.getElementsByClassName("_farPiComponent")
+        this.socket.farpiControls = farpiRoot.getElementsByClassName("_farPiComponent");
+
+        for(let i = 0; i < this.socket.farpiControls.length; i++) {
+            this.socket.farpiControls[i].farpi = this;
+        }
 
         this.socket.onmessage = function(e) {
             // Remember: "this" refers to the socket, NOT the FarPi object!
-            console.log(this.farpiControls);
             let state = JSON.parse(e.data);
             for(let i = 0; i < this.farpiControls.length; i++) {
                 this.farpiControls[i].farpiUpdate(state);
             }
-        };
+        }
     }
 }
 
-customElements.define('farpi-console', FarPi);
+customElements.define('farpi-root', FarPi);
