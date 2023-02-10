@@ -104,7 +104,7 @@ def gen_ir_frames():
 @app.route('/')
 def index():
     # Default route just to provide a simple test page
-    return render_template('index.html')
+    return render_template('index.demo')
 
 
 @app.route('/video_feed')

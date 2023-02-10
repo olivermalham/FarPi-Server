@@ -4,18 +4,18 @@
 <head>
     <title>FarPi</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
-    <script src="/js/farpi.js"></script>
-    <script src="/js/farpi_switches.js"></script>
-    <script src="/js/farpi_indicators.js"></script>
-    <script src="/js/farpi_consoles.js"></script>
-    <link rel="stylesheet" href="/css/farpi.css">
+    <script src="/core/farpi.js"></script>
+    <script src="/core/farpi_switches.js"></script>
+    <script src="/core/farpi_indicators.js"></script>
+    <script src="/core/farpi_consoles.js"></script>
+    <link rel="stylesheet" href="/css/skuttle.css">
 </head>
 <body>
 
 <farpi-root server="ws://localhost:8888/farpi">
     <farpi-heartbeat></farpi-heartbeat>
 
-    <div id="subTitle">- FarPi Webcomponents Test -</div>
+    <div id="subTitle">- Skuttle -</div>
     <hr />
 
     <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>

@@ -1,12 +1,10 @@
 # The Hardware Abstraction Layer (HAL) package represents the hardware attached to the server
 # that the user will interact with via the UI
-from apps.base_app import *
-from UI import all_pi
-from HAL.base import BaseHAL
+from HAL.Skuttle import SkuttleHAL
 
 # Number of milliseconds to delay between updates to clients
 refresh_ms = 500
 
 # Create the HAL object that interfaces with the hardware
-hal = BaseHAL()
-ui = all_pi.ui
+hal = SkuttleHAL()
+ui = "skuttle"
