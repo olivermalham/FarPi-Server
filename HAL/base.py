@@ -111,6 +111,9 @@ class BaseHAL(HAL):
         self.bcm27 = BaseGPIO(pin_number=27, directon=0)
 
         self.sawtooth = GeneratorSawTooth()
+        self.square_wave = GeneratorSquareWave()
+
+        self.commandLine = BaseConsole()
 
     def clean_up(self):
         super(BaseHAL, self).clean_up()

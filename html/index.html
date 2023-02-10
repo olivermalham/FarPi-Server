@@ -4,8 +4,10 @@
 <head>
     <title>FarPi</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
-    <script src="/farpi.js"></script>
-    <script src="/farpi_switches.js"></script>
+    <script src="/js/farpi.js"></script>
+    <script src="/js/farpi_switches.js"></script>
+    <script src="/js/farpi_indicators.js"></script>
+    <script src="/js/farpi_consoles.js"></script>
     <link rel="stylesheet" href="/css/farpi.css">
 </head>
 <body>
@@ -13,13 +15,15 @@
 <farpi-root server="ws://localhost:8888/farpi">
     <farpi-heartbeat></farpi-heartbeat>
 
-    <div>- FarPi Webcomponents Test -</div>
+    <div id="subTitle">- FarPi Webcomponents Test -</div>
     <hr />
 
-    <farpi-switch source="bcm01">Switch 1</farpi-switch>
-    <farpi-switch source="bcm02">Switch 2</farpi-switch>
-    <farpi-switch source="bcm03">Another Switch</farpi-switch>
-
+    <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
+    <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
+    <farpi-led source="square_wave">Square wave</farpi-led>
+    <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
+    <farpi-message></farpi-message>
+    <farpi-console source="commandLine"></farpi-console>
 
 </farpi-root>
 </body>

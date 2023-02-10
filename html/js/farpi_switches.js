@@ -34,34 +34,41 @@ class FarPiSwitch extends FarPiElement {
 }
 
 class FarPiButton extends FarPiElement {
-    // TODO: Refactor this to be a momentary button
     setup() {
         this.source = this.getAttribute("source");
         this.label = this.innerText;
         this.innerHTML =
             `<div class="LED interactive">
-                <span class="toggle_switch"><span class="toggle_indicator">&nbsp;</span></span>
+                <span class="LED_indicator">&nbsp;</span>
                 <span class="label">${this.label}</span>
             </div>`
-        this.onclick = this.onclick_handler
-        console.log('FarPiSwitch added to page - ' + this.source);
+        this.onmousedown = this.onmousedown_handler;
+        this.onmouseup = this.onmouseup_handler;
+        this.ontouchstart = this.onmousedown_handler;
+        this.ontouchend = this.onmouseup_handler;
+        console.log('FarPiButton added to page - ' + this.source);
     }
 
     farPiUpdate(newValue) {
-        let switch_element = this.getElementsByClassName("toggle_switch")[0];
-        let switch_indicator = this.getElementsByClassName("toggle_indicator")[0];
+        let switch_indicator = this.getElementsByClassName("LED_indicator")[0];
 
         if (newValue[this.source].state) {
-            switch_element.classList.add("toggle_switch_on", "on_glow");
-            switch_indicator.classList.add("toggle_on");
+            switch_indicator.classList.add("LED_on", "on_glow");
         } else {
-            switch_element.classList.remove("toggle_switch_on", "on_glow");
-            switch_indicator.classList.remove("toggle_on");
+            switch_indicator.classList.remove("LED_on", "on_glow");
         }
     }
 
-    onclick_handler(event) {
-        this.action("action_toggle", "");
+    onmousedown_handler(event) {
+        event.preventDefault();
+        this.action("action_set", '"value":1');
+        console.log('FarPiButton down - ' + this.source);
+    }
+
+    onmouseup_handler(event) {
+        event.preventDefault();
+        this.action("action_set", '"value":0');
+        console.log('FarPiButton up - ' + this.source);
     }
 }
 
