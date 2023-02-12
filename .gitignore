@@ -3,7 +3,5 @@
 */node_modules/*
 */dist/*
 */target/*
-/marvin_ui_yew/css/node_modules/
-/marvin_ui_yew/target
-/marvin_ui_yew/dist/
+/UI/skuttle/css_source/node_modules/
 

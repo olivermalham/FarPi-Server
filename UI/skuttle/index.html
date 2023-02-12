@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="luxury">
 
 <head>
-    <title>FarPi</title>
+    <title>Skuttle</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
     <script src="/core/farpi.js"></script>
     <script src="/core/farpi_switches.js"></script>
@@ -13,10 +13,10 @@
 <body>
 
 <farpi-root server="ws://localhost:8888/farpi">
-    <farpi-heartbeat></farpi-heartbeat>
+    <farpi-heartbeat class="badge badge-sm gap-2 badge-outline float-right" style-on="badge-warning" style-off="badge-outline">- Connected -</farpi-heartbeat>
 
     <div id="subTitle">- Skuttle -</div>
-    <hr />
+    <div class="divider"></div>
 
     <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
     <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>

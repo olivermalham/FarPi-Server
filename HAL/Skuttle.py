@@ -1,10 +1,10 @@
 from .hal import *
 from HAL.components.virtual import *
-from .base import BaseConsole
+from .base import BaseConsole, BaseHAL
 # from HAL.components.waveshare_motor_hat import WaveshareMotorHat
 
 
-class SkuttleHAL(HAL):
+class SkuttleHAL(BaseHAL):
     """ HAL class for the Skuttle robot """
 
     def __init__(self):
