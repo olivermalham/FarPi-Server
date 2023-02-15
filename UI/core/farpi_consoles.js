@@ -3,7 +3,7 @@ class FarPiMessageBox extends FarPiElement {
         this.source = this.getAttribute("source");
         this.label = this.innerText;
         this.innerHTML =
-            `<textarea readonly class="MessageBox"></textarea>`
+            `<textarea readonly class="textarea textarea-bordered MessageBox w-full h-[16rem]"></textarea>`
         this.onclick = this.onclick_handler
         console.log('FarPiLED added to page - ' + this.source);
     }
@@ -25,10 +25,15 @@ class FarPiConsole extends FarPiElement {
         this.commandLine = ""
 
         this.innerHTML =
-            `<div>
-                <textarea readonly class="MessageBox">${this.buffer}</textarea>
-            </div>
-            <input type="text" class="CommandLine" />`
+            `<div class="form-control">
+                <label class="label">
+                    <textarea readonly class="textarea textarea-bordered">${this.buffer}</textarea>
+                </label>
+                <label class="input-group input-group-vertical">
+                    <span>Email</span>
+                    <input type="text" placeholder="info@site.com" class="CommandLine input input-bordered" />
+                </label>
+            </div>`
         console.log('FarPiConsole added to page');
         this.onkeydown = this.onenter_handler;
     }

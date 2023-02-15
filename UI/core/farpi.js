@@ -74,19 +74,20 @@ class FarPiElement extends HTMLElement {
 class FarPiHeartBeat extends FarPiElement {
     // Simple active connection indicator
     setup() {
-        this.style_on = this.getAttribute("style-on");
-        this.style_off = this.getAttribute("style-off");
+        this.style_on = "";
+        this.style_off = "badge-outline";
+        this.classList.add("badge", "badge-primary", "badge-outline", "float-right");
         this.label = this.innerText;
         this.innerHTML =
-            `<div class="HeartBeat" id="HeartBeat">${this.label}</div>`
+            `<div>${this.label}</div>`
     }
 
     farPiUpdate(newValue) {
         if (newValue["cycle"] % 2) {
-            this.classList.add(this.style_on);
+            // this.classList.add(this.style_on);
             this.classList.remove(this.style_off);
         } else {
-            this.classList.remove(this.style_on);
+            // this.classList.remove(this.style_on);
             this.classList.add(this.style_off);
         }
     }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="luxury">
+<html lang="en" data-theme="halloween">
 
 <head>
     <title>Skuttle</title>
@@ -12,18 +12,32 @@
 </head>
 <body>
 
-<farpi-root server="ws://localhost:8888/farpi">
-    <farpi-heartbeat class="badge badge-sm gap-2 badge-outline float-right" style-on="badge-warning" style-off="badge-outline">- Connected -</farpi-heartbeat>
+<farpi-root server="ws://localhost:8888/farpi" class="p-8">
+    <div class="navbar bg-neutral text-neutral-content">
+        <a class="btn btn-ghost normal-case text-xl">Skuttle</a><farpi-heartbeat>- Connected -</farpi-heartbeat>
+    </div>
 
-    <div id="subTitle">- Skuttle -</div>
-    <div class="divider"></div>
+    <div class="card card-bordered border-primary shadow-xl bg-neutral text-neutral-content grid place-items-center">
+        <div class="card-body">
+            <h2 class="card-title">Example Controls</h2>
 
-    <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
-    <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
-    <farpi-led source="square_wave">Square wave</farpi-led>
-    <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
-    <farpi-message></farpi-message>
-    <farpi-console source="commandLine"></farpi-console>
+            <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
+            <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
+            <farpi-led source="square_wave">Square wave</farpi-led>
+            <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
+            <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
+            <farpi-message></farpi-message>
+<!--    <farpi-console source="commandLine"></farpi-console>-->
+
+        </div>
+    </div>
+
+    <div class="card card-bordered border-primary max-w-fit shadow-xl bg-neutral text-neutral-content">
+        <div class="card-body flex items-center">
+            <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>
+        </div>
+    </div>
+
 
 </farpi-root>
 </body>

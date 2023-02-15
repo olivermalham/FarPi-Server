@@ -1,14 +1,13 @@
 class FarPiSwitch extends FarPiElement {
     // TODO:
-    //  - Refactor codebase to make it easy for FarPi app settings to select UI to serve
-    //  - Get Tailwind and Daisy CSS libraries added to make it pretty
+    //  - Rewrite the component HTML to use DaisyUI and tailwind
 
     setup() {
         this.source = this.getAttribute("source");
-        this.label = this.innerText; //this.getAttribute("label");
+        this.label = this.innerText;
         this.innerHTML =
-            `<div class="LED interactive">
-                <span class="toggle_switch"><span class="toggle_indicator">&nbsp;</span></span>
+            `<div class="btn btn-primary w-full toggle_switch flex space-x-4">
+                <input type="checkbox" class="toggle toggle-primary bg-primary-content" />
                 <span class="label">${this.label}</span>
             </div>`
         this.onclick = this.onclick_handler
@@ -16,16 +15,9 @@ class FarPiSwitch extends FarPiElement {
     }
 
     farPiUpdate(newValue) {
-        let switch_element = this.getElementsByClassName("toggle_switch")[0];
-        let switch_indicator = this.getElementsByClassName("toggle_indicator")[0];
+        let switch_indicator = this.getElementsByTagName("input")[0];
 
-        if (newValue[this.source].state) {
-            switch_element.classList.add("toggle_switch_on", "on_glow");
-            switch_indicator.classList.add("toggle_on");
-        } else {
-            switch_element.classList.remove("toggle_switch_on", "on_glow");
-            switch_indicator.classList.remove("toggle_on");
-        }
+        switch_indicator.checked = newValue[this.source].state;
     }
 
     onclick_handler(event) {
@@ -37,10 +29,10 @@ class FarPiButton extends FarPiElement {
     setup() {
         this.source = this.getAttribute("source");
         this.label = this.innerText;
+
         this.innerHTML =
-            `<div class="LED interactive">
-                <span class="LED_indicator">&nbsp;</span>
-                <span class="label">${this.label}</span>
+            `<div class="btn btn-primary w-full">
+                <span class="label" class="bg-primary-content">${this.label}</span>
             </div>`
         this.onmousedown = this.onmousedown_handler;
         this.onmouseup = this.onmouseup_handler;
@@ -50,13 +42,6 @@ class FarPiButton extends FarPiElement {
     }
 
     farPiUpdate(newValue) {
-        let switch_indicator = this.getElementsByClassName("LED_indicator")[0];
-
-        if (newValue[this.source].state) {
-            switch_indicator.classList.add("LED_on", "on_glow");
-        } else {
-            switch_indicator.classList.remove("LED_on", "on_glow");
-        }
     }
 
     onmousedown_handler(event) {
