@@ -10,36 +10,51 @@
     <script src="/core/farpi_consoles.js"></script>
     <link rel="stylesheet" href="/css/skuttle.css">
 </head>
-<body>
+<body class="w-full h-screen bg-cover bg-center bg-[url('/background-hexagons.png')]">
 
-<farpi-root server="ws://localhost:8888/farpi" class="p-8">
-    <div class="navbar bg-neutral text-neutral-content">
-        <a class="btn btn-ghost normal-case text-xl">Skuttle</a><farpi-heartbeat>- Connected -</farpi-heartbeat>
-    </div>
-
-    <div class="card card-bordered border-primary shadow-xl bg-neutral text-neutral-content grid place-items-center">
-        <div class="card-body">
-            <h2 class="card-title">Example Controls</h2>
-
-            <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
-            <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
-            <farpi-led source="square_wave">Square wave</farpi-led>
-            <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
-            <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
-            <farpi-message></farpi-message>
-<!--    <farpi-console source="commandLine"></farpi-console>-->
-
+    <farpi-root server="ws://192.168.0.44:8888/farpi">
+        <div class="navbar bg-neutral text-neutral-content">
+            <span class="btn btn-ghost normal-case text-xl">Skuttle</span><farpi-heartbeat>- Connected -</farpi-heartbeat>
         </div>
-    </div>
 
-    <div class="card card-bordered border-primary max-w-fit shadow-xl bg-neutral text-neutral-content">
-        <div class="card-body flex items-center">
-            <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>
+        <div class="grid grid-cols-3 gap-4 m-4">
+
+            <farpi-panel class="col-span-2">
+                <div class="card-body flex items-center">
+                    ( video feed here.... )
+                </div>
+            </farpi-panel>
+
+            <farpi-panel>
+                <div class="card-body">
+                    <h2 class="card-title">Example Controls</h2>
+
+                    <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
+                    <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
+                    <farpi-led source="square_wave">Square wave</farpi-led>
+                    <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
+                    <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
+                    <farpi-message></farpi-message>
+        <!--    <farpi-console source="commandLine"></farpi-console>-->
+
+                </div>
+            </farpi-panel>
+
+<!--            <div class="card card-bordered border-primary shadow-xl bg-neutral text-neutral-content">-->
+<!--                <div class="card-body flex items-center">-->
+<!--                    <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>-->
+<!--                </div>-->
+<!--                <div class="card-body flex items-center">-->
+<!--                    <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>-->
+<!--                </div>-->
+<!--                <div class="card-body flex items-center">-->
+<!--                    <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
-    </div>
 
+    </farpi-root>
 
-</farpi-root>
 </body>
 
 </html>
