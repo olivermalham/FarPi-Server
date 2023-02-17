@@ -147,22 +147,20 @@ if __name__ == "__main__":
         traceback.print_exc()
         exit()
 
+    urls = [(r"/farpi", FarPiStateHandler)]
+
     if hasattr(application, "ui"):
         print("UI Enabled, setting up URLS...")
-        urls = [
-            (r"/farpi", FarPiStateHandler),
-            (r"/core/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + 'core/', default_filename='index.html')),
-            (r"/css/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + application.ui + '/css/', default_filename='index.html')),
+        urls += [
+            (r"/core/(.*)", tornado.web.StaticFileHandler,
+             dict(path=settings['static_path'] + 'core/', default_filename='index.html')),
+            (r"/css/(.*)", tornado.web.StaticFileHandler,
+             dict(path=settings['static_path'] + application.ui + '/css/', default_filename='index.html')),
             (r"/js/(.*)", tornado.web.StaticFileHandler,
              dict(path=settings['static_path'] + application.ui + '/js/', default_filename='index.html')),
-            (r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + application.ui, default_filename='index.html')),
         ]
-    else:
-        print("No UI enabled, backend server only")
-        urls = [
-            (r"/farpi", FarPiStateHandler),
-            (r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'], default_filename='index.demo'))
-        ]
+
+    urls += [(r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + application.ui, default_filename='index.html'))]
 
     # Create the Tornado application, start it listening on the configured port
     app = tornado.web.Application(urls, **settings)

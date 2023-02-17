@@ -8,6 +8,7 @@
     <script src="/core/farpi_switches.js"></script>
     <script src="/core/farpi_indicators.js"></script>
     <script src="/core/farpi_consoles.js"></script>
+    <script src="/core/farpi_streams.js"></script>
     <link rel="stylesheet" href="/css/skuttle.css">
 </head>
 <body class="w-full h-screen bg-cover bg-center bg-[url('/background-hexagons.png')]">
@@ -21,7 +22,7 @@
 
             <farpi-panel class="col-span-2">
                 <div class="card-body flex items-center">
-                    ( video feed here.... )
+                    <farpi-camera stream="http://192.168.0.44:8889/video_feed"></farpi-camera>
                 </div>
             </farpi-panel>
 
@@ -36,6 +37,19 @@
                     <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
                     <farpi-message></farpi-message>
         <!--    <farpi-console source="commandLine"></farpi-console>-->
+
+                </div>
+            </farpi-panel>
+
+            <farpi-panel class="col-span-3">
+                <div class="card-body grid grid-cols-5">
+
+
+                    <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
+                    <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
+                    <farpi-led source="square_wave">Square wave</farpi-led>
+                    <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
+                    <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
 
                 </div>
             </farpi-panel>

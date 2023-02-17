@@ -19,7 +19,6 @@ class FarPiLED extends FarPiElement {
 }
 
 class FarPiGaugeRound extends FarPiElement {
-    // TODO - Label isn't showing, layout acting weird
     setup() {
         this.value = 0;
         this.units = "V";

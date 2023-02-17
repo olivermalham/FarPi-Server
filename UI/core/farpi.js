@@ -44,7 +44,6 @@ class FarPi extends HTMLElement {
         });
     }
 }
-
 customElements.define('farpi-root', FarPi);
 
 class FarPiElement extends HTMLElement {
