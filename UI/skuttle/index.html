@@ -8,7 +8,7 @@
     <script src="/core/farpi_switches.js"></script>
     <script src="/core/farpi_indicators.js"></script>
     <script src="/core/farpi_consoles.js"></script>
-    <script src="/core/farpi_streams.js"></script>
+    <script src="/core/farpi_camera.js"></script>
     <link rel="stylesheet" href="/css/skuttle.css">
 </head>
 <body class="w-full h-screen bg-cover bg-center bg-[url('/background-hexagons.png')]">
@@ -22,7 +22,7 @@
 
             <farpi-panel class="col-span-2">
                 <div class="card-body flex items-center">
-                    <farpi-camera stream="http://192.168.0.44:8889/video_feed"></farpi-camera>
+                    <farpi-camera source="http://192.168.0.44:8888"></farpi-camera>
                 </div>
             </farpi-panel>
 

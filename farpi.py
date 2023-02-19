@@ -153,14 +153,14 @@ if __name__ == "__main__":
         print("UI Enabled, setting up URLS...")
         urls += [
             (r"/core/(.*)", tornado.web.StaticFileHandler,
-             dict(path=settings['static_path'] + 'core/', default_filename='index.html')),
+             dict(path=settings['static_path'] + 'core/', default_filename='streams/webrtc/index.html')),
             (r"/css/(.*)", tornado.web.StaticFileHandler,
-             dict(path=settings['static_path'] + application.ui + '/css/', default_filename='index.html')),
+             dict(path=settings['static_path'] + application.ui + '/css/', default_filename='streams/webrtc/index.html')),
             (r"/js/(.*)", tornado.web.StaticFileHandler,
-             dict(path=settings['static_path'] + application.ui + '/js/', default_filename='index.html')),
+             dict(path=settings['static_path'] + application.ui + '/js/', default_filename='streams/webrtc/index.html')),
         ]
 
-    urls += [(r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + application.ui, default_filename='index.html'))]
+    urls += [(r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + application.ui, default_filename='streams/webrtc/index.html'))]
 
     # Create the Tornado application, start it listening on the configured port
     app = tornado.web.Application(urls, **settings)
