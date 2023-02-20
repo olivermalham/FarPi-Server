@@ -29,16 +29,7 @@ def create_local_tracks(play_from, decode):
     else:
         options = {"framerate": "30", "video_size": "640x480"}
         if relay is None:
-            if platform.system() == "Darwin":
-                webcam = MediaPlayer(
-                    "default:none", format="avfoundation", options=options
-                )
-            elif platform.system() == "Windows":
-                webcam = MediaPlayer(
-                    "video=Integrated Camera", format="dshow", options=options
-                )
-            else:
-                webcam = MediaPlayer("/dev/video0", format="v4l2", options=options)
+            webcam = MediaPlayer("/dev/video0", format="v4l2", options=options)
             relay = MediaRelay()
         return None, relay.subscribe(webcam.video)
 
@@ -50,16 +41,6 @@ def force_codec(pc, sender, forced_codec):
     transceiver.setCodecPreferences(
         [codec for codec in codecs if codec.mimeType == forced_codec]
     )
-
-
-# async def index(request):
-#     content = open(os.path.join(ROOT, "index.html"), "r").read()
-#     return web.Response(content_type="text/html", text=content)
-
-
-# async def javascript(request):
-#     content = open(os.path.join(ROOT, "../../UI/core/farpi_camera.js"), "r").read()
-#     return web.Response(content_type="application/javascript", text=content)
 
 
 async def offer(request):
@@ -168,20 +149,17 @@ if __name__ == "__main__":
     app = web.Application()
     app.on_shutdown.append(on_shutdown)
 
-    # FIXME! Need to disable CORS
     cors = aiohttp_cors.setup(app)
 
-    resource = cors.add(app.router.add_post("/offer", offer))
-
-    route = cors.add(
-        resource.add_route("POST", handler), {
-            "*": aiohttp_cors.ResourceOptions(
-                allow_credentials=True,
-                expose_headers=("X-Custom-Server-Header",),
-                allow_headers=("X-Requested-With", "Content-Type"),
-                max_age=3600,
-            )
-        })
+    resource = cors.add(app.router.add_post("/offer", offer),
+                        {
+                            "*": aiohttp_cors.ResourceOptions(
+                                allow_credentials=True,
+                                expose_headers=("X-Custom-Server-Header",),
+                                allow_headers=("X-Requested-With", "Content-Type"),
+                                max_age=3600,
+                            )
+                        })
 
     web.run_app(app, host=args.host, port=args.port, ssl_context=ssl_context)
 
