@@ -1,7 +1,4 @@
 class FarPiSwitch extends FarPiElement {
-    // TODO:
-    //  - Rewrite the component HTML to use DaisyUI and tailwind
-
     setup() {
         this.source = this.getAttribute("source");
         this.label = this.innerText;
@@ -24,6 +21,8 @@ class FarPiSwitch extends FarPiElement {
         this.action("action_toggle", "");
     }
 }
+customElements.define('farpi-switch', FarPiSwitch);
+
 
 class FarPiButton extends FarPiElement {
     setup() {
@@ -56,7 +55,45 @@ class FarPiButton extends FarPiElement {
         console.log('FarPiButton up - ' + this.source);
     }
 }
-
-
-customElements.define('farpi-switch', FarPiSwitch);
 customElements.define('farpi-button', FarPiButton);
+
+
+class FarPiKeypad extends FarPiElement {
+    setup() {
+        this.source = this.getAttribute("source");
+        this.label = this.innerText;
+
+        this.innerHTML =
+            `<div class="flex justify-center w-full">
+              <kbd class="btn btn-primary text-xl" id="up">&#9650</kbd>
+            </div>
+            <div class="flex justify-center gap-24 w-full">
+              <kbd class="btn btn-primary text-xl" id="left">&#9668</kbd>
+              <kbd class="btn btn-primary text-xl" id="right">&#9658</kbd>
+            </div>
+            <div class="flex justify-center w-full">
+              <kbd class="btn btn-primary text-xl" id="down">&#9660</kbd>
+            </div>`
+        this.onmousedown = this.onmousedown_handler;
+        this.onmouseup = this.onmouseup_handler;
+        this.ontouchstart = this.onmousedown_handler;
+        this.ontouchend = this.onmouseup_handler;
+        console.log('FarPiKeypad added to page - ' + this.source);
+    }
+
+    farPiUpdate(newValue) {
+    }
+
+    onmousedown_handler(event) {
+        event.preventDefault();
+        this.action("action_set", '"value":1');
+        console.log('FarPiKeypad down - ' + this.source);
+    }
+
+    onmouseup_handler(event) {
+        event.preventDefault();
+        this.action("action_set", '"value":0');
+        console.log('FarPiKeypad up - ' + this.source);
+    }
+}
+customElements.define('farpi-keypad', FarPiKeypad);

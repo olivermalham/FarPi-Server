@@ -14,8 +14,11 @@
 <body class="w-full h-screen bg-cover bg-center bg-[url('/background-hexagons.png')]">
 
     <farpi-root server="ws://192.168.0.44:8888/farpi">
-        <div class="navbar bg-neutral text-neutral-content">
-            <span class="btn btn-ghost normal-case text-xl">Skuttle</span><farpi-heartbeat>- Connected -</farpi-heartbeat>
+        <div class="navbar bg-primary text-neutral-content h-30">
+            <div class="flex-1">
+                <img src="skuttle.png" class="h-10"/>
+            </div>
+            <farpi-heartbeat class="base-300 flex-none"> - CONNECTED - </farpi-heartbeat>
         </div>
 
         <div class="grid grid-cols-3 gap-4 m-4">
@@ -28,15 +31,8 @@
 
             <farpi-panel>
                 <div class="card-body">
-                    <h2 class="card-title">Example Controls</h2>
-
-                    <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
-                    <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
-                    <farpi-led source="square_wave">Square wave</farpi-led>
-                    <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
-                    <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
                     <farpi-message></farpi-message>
-        <!--    <farpi-console source="commandLine"></farpi-console>-->
+                    <farpi-keypad source="fixme?"></farpi-keypad>
 
                 </div>
             </farpi-panel>

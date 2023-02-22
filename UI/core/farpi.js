@@ -75,7 +75,7 @@ class FarPiHeartBeat extends FarPiElement {
     setup() {
         this.style_on = "";
         this.style_off = "badge-outline";
-        this.classList.add("badge", "badge-primary", "badge-outline", "float-right");
+        this.classList.add("badge", "badge-outline");
         this.label = this.innerText;
         this.innerHTML =
             `<div>${this.label}</div>`
