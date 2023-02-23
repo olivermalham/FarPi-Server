@@ -21,9 +21,30 @@ class FarPiLED extends FarPiElement {
 class FarPiGaugeRound extends FarPiElement {
     setup() {
         this.value = 0;
-        this.units = "V";
+
+        this.units = this.getAttribute("units");
+        if(!this.units) this.units = "";
+
+        // If no scale attribute is provided, assume the value is in the range 0-1, convert to percentage
+        this.scale = this.getAttribute("scale");
+        if(this.scale){
+            this.scale = parseFloat(this.scale);
+        } else {
+            this.scale = 100.0;
+        }
+
+        // Handle X.Y notation
         this.source = this.getAttribute("source");
+        let source_parts = this.source.split(".");
+        if(source_parts.length > 1){
+            this.source = source_parts[0];
+            this.param = source_parts[1];
+        } else {
+            this.param = "state";
+        }
+
         this.label = this.innerText;
+
         this.innerHTML =
             `<div class="grid place-items-center">
                 <span class="radial-progress text-primary border-primary" style="--value:0;">${this.value}</span>
@@ -35,7 +56,7 @@ class FarPiGaugeRound extends FarPiElement {
 
     farPiUpdate(newValue) {
         let gauge_element = this.getElementsByClassName("radial-progress")[0];
-        this.value = (newValue[this.source]["state"]*100.0).toFixed(1);
+        this.value = (newValue[this.source][this.param]*this.scale).toFixed(1);
 
         gauge_element.style = `--value:${this.value}`;
         gauge_element.innerText = `${this.value}${this.units}`

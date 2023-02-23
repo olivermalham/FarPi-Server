@@ -11,6 +11,7 @@
     <script src="/core/farpi_camera.js"></script>
     <link rel="stylesheet" href="/css/skuttle.css">
 </head>
+
 <body class="w-full h-screen bg-cover bg-center bg-[url('/background-hexagons.png')]">
 
     <farpi-root server="ws://192.168.0.44:8888/farpi">
@@ -50,17 +51,19 @@
                 </div>
             </farpi-panel>
 
-<!--            <div class="card card-bordered border-primary shadow-xl bg-neutral text-neutral-content">-->
-<!--                <div class="card-body flex items-center">-->
-<!--                    <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>-->
-<!--                </div>-->
-<!--                <div class="card-body flex items-center">-->
-<!--                    <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>-->
-<!--                </div>-->
-<!--                <div class="card-body flex items-center">-->
-<!--                    <farpi-guage-round source="sawtooth">Battery Voltage</farpi-guage-round>-->
-<!--                </div>-->
-<!--            </div>-->
+            <farpi-panel class="col-span-3">
+                <div class="card card-bordered border-primary shadow-xl bg-neutral text-neutral-content">
+                    <div class="card-body flex items-center">
+                        <farpi-guage-round source="cpu.load" units="%">CPU Load</farpi-guage-round>
+                    </div>
+                    <div class="card-body flex items-center">
+                        <farpi-guage-round source="cpu.temp" scale="1" units="&#8451">CPU Temp</farpi-guage-round>
+                    </div>
+                    <div class="card-body flex items-center">
+                        <farpi-guage-round source="cpu.memory" units="%">RAM Used</farpi-guage-round>
+                    </div>
+                </div>
+            </farpi-panel>
         </div>
 
     </farpi-root>
