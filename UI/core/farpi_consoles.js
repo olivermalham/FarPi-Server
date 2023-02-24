@@ -26,12 +26,9 @@ class FarPiConsole extends FarPiElement {
 
         this.innerHTML =
             `<div class="form-control">
-                <label class="label">
-                    <textarea readonly class="textarea textarea-bordered">${this.buffer}</textarea>
-                </label>
                 <label class="input-group input-group-vertical">
-                    <span>Email</span>
-                    <input type="text" placeholder="info@site.com" class="CommandLine input input-bordered" />
+                    <textarea readonly class="textarea textarea-bordered MessageBox w-full h-[16rem] bg-black"></textarea>
+                    <input type="text" placeholder="Enter command...." class="CommandLine input input-bordered" />
                 </label>
             </div>`
         console.log('FarPiConsole added to page');

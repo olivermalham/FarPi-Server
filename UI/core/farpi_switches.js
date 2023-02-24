@@ -62,6 +62,7 @@ class FarPiKeypad extends FarPiElement {
     setup() {
         this.source = this.getAttribute("source");
         this.label = this.innerText;
+        this.classList.add("bg-base-100", "rounded-lg", "border", "border-panel", "p-5")
 
         this.innerHTML =
             `<div class="flex justify-center w-full">
@@ -86,14 +87,44 @@ class FarPiKeypad extends FarPiElement {
 
     onmousedown_handler(event) {
         event.preventDefault();
-        this.action("action_set", '"value":1');
-        console.log('FarPiKeypad down - ' + this.source);
+        switch (event.target.id) {
+            case "left":
+            console.log('FarPiKeypad left down');
+            break;
+
+            case "right":
+            console.log('FarPiKeypad right down');
+            break;
+
+            case "up":
+            console.log('FarPiKeypad up down');
+            break;
+
+            case "down":
+            console.log('FarPiKeypad down down');
+            break;
+        }
     }
 
     onmouseup_handler(event) {
         event.preventDefault();
-        this.action("action_set", '"value":0');
-        console.log('FarPiKeypad up - ' + this.source);
+                switch (event.target.id) {
+            case "left":
+            console.log('FarPiKeypad left up');
+            break;
+
+            case "right":
+            console.log('FarPiKeypad right up');
+            break;
+
+            case "up":
+            console.log('FarPiKeypad up up');
+            break;
+
+            case "down":
+            console.log('FarPiKeypad down up');
+            break;
+        }
     }
 }
 customElements.define('farpi-keypad', FarPiKeypad);

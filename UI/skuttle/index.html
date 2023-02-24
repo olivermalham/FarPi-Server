@@ -24,44 +24,22 @@
 
         <div class="grid grid-cols-3 gap-4 m-4">
 
-            <farpi-panel class="col-span-2">
+            <farpi-panel class="col-span-2 backdrop-blur-sm bg-white/10">
                 <div class="card-body flex items-center">
                     <farpi-camera source="http://127.0.0.1:8080"></farpi-camera>
                 </div>
             </farpi-panel>
 
-            <farpi-panel>
+            <farpi-panel class="backdrop-blur-sm bg-white/10">
                 <div class="card-body">
-                    <farpi-message></farpi-message>
-                    <farpi-keypad source="fixme?"></farpi-keypad>
-
-                </div>
-            </farpi-panel>
-
-            <farpi-panel class="col-span-3">
-                <div class="card-body grid grid-cols-5">
-
-
-                    <farpi-switch source="bcm01">Toggle Switch - bcm01</farpi-switch>
-                    <farpi-led source="bcm01">Simple LED - bcm01</farpi-led>
-                    <farpi-led source="square_wave">Square wave</farpi-led>
-                    <farpi-button source="bcm02">Momentary Switch - bcm02</farpi-button>
-                    <farpi-led source="bcm02">Simple LED - bcm02</farpi-led>
-
-                </div>
-            </farpi-panel>
-
-            <farpi-panel class="col-span-3">
-                <div class="card card-bordered border-primary shadow-xl bg-neutral text-neutral-content">
-                    <div class="card-body flex items-center">
+                    <div class="card-body grid grid-cols-3">
                         <farpi-guage-round source="cpu.load" units="%">CPU Load</farpi-guage-round>
-                    </div>
-                    <div class="card-body flex items-center">
                         <farpi-guage-round source="cpu.temp" scale="1" units="&#8451">CPU Temp</farpi-guage-round>
-                    </div>
-                    <div class="card-body flex items-center">
                         <farpi-guage-round source="cpu.memory" units="%">RAM Used</farpi-guage-round>
                     </div>
+                    <farpi-console source="commandLine"></farpi-console>
+                    <farpi-keypad source="fixme?"></farpi-keypad>
+
                 </div>
             </farpi-panel>
         </div>

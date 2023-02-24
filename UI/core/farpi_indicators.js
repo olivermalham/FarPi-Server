@@ -46,9 +46,9 @@ class FarPiGaugeRound extends FarPiElement {
         this.label = this.innerText;
 
         this.innerHTML =
-            `<div class="grid place-items-center">
-                <span class="radial-progress text-primary border-primary" style="--value:0;">${this.value}</span>
-                <span class="label">${this.label}</span>
+            `<div class="grid grid-rows-1 justify-items-center place-content-center rounded-lg border border-panel p-5 bg-base-100">
+                <span class="radial-progress text-primary border-4 border-neutral-800 bg-neutral-800" style="--value:0;">${this.value}</span>
+                <span class="label p-0">${this.label}</span>
             </div>`
         this.onclick = this.onclick_handler
         console.log('FarPiLED added to page - ' + this.source);
