@@ -51,7 +51,7 @@ class FarPiGaugeRound extends FarPiElement {
                 <span class="label p-0">${this.label}</span>
             </div>`
         this.onclick = this.onclick_handler
-        console.log('FarPiLED added to page - ' + this.source);
+        console.log('FarPiGaugeRound added to page - ' + this.source);
     }
 
     farPiUpdate(newValue) {

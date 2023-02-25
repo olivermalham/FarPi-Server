@@ -4,9 +4,10 @@ let pc = null;
 class FarPiCamera extends FarPiElement {
     setup() {
         this.soucre = this.getAttribute("source");
+        this.classList.add("w-full", "h-full");
         this.innerHTML =
-            `<div id="media" class="grid justify-items-center">
-                <video id="video" autoplay="true" playsinline="true" controls></video>
+            `<div id="media" class="w-full h-full">
+                <video id="video" autoplay muted class="rounded-lg w-full h-full"></video>
             </div>`
         this.start();
         console.log('FarPiCamera added to page - ' + this.source);

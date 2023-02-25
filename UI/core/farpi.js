@@ -29,7 +29,7 @@ class FarPi extends HTMLElement {
             // Get all elements with the _farPiComponent class, automatically added by FarPiElement
             this.socket.farpiControls = farpiRoot.getElementsByClassName("_farPiComponent");
 
-            // Attach the this FarPi instance to all of the FarPiElements
+            // Attach this FarPi instance to all the FarPiElements
             for (let i = 0; i < this.socket.farpiControls.length; i++) {
                 this.socket.farpiControls[i]._farpi = this;
             }
@@ -40,6 +40,11 @@ class FarPi extends HTMLElement {
                 for (let i = 0; i < this.farpiControls.length; i++) {
                     this.farpiControls[i].farPiUpdate(state);
                 }
+            }
+
+            this.socket.onclose = function (e) {
+                let heartbeat = document.getElementsByTagName("farpi-heartbeat")[0];
+                heartbeat.disconnected();
             }
         });
     }
@@ -73,22 +78,25 @@ class FarPiElement extends HTMLElement {
 class FarPiHeartBeat extends FarPiElement {
     // Simple active connection indicator
     setup() {
-        this.style_on = "";
-        this.style_off = "badge-outline";
-        this.classList.add("badge", "badge-outline");
+        this.classList.add("pr-3");
         this.label = this.innerText;
         this.innerHTML =
-            `<div>${this.label}</div>`
+            `<div class="flex items-center justify-center text-neutral border border-2 border-neutral p-1 rounded-xl w-12 h-12 items-center">
+                <div class="text-neutral inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                    
+                </div>
+            </div>`
     }
 
-    farPiUpdate(newValue) {
-        if (newValue["cycle"] % 2) {
-            // this.classList.add(this.style_on);
-            this.classList.remove(this.style_off);
-        } else {
-            // this.classList.remove(this.style_on);
-            this.classList.add(this.style_off);
+    disconnected() {
+        let spinner = this.getElementsByClassName("animate-spin")[0];
+        if(spinner){
+            spinner.classList.remove("animate-spin")
         }
+        this.innerHTML = `
+            <div class="flex items-center justify-center text-neutral border border-2 border-neutral p-1 rounded-xl w-12 h-12 items-center text-5xl">
+                    &CircleTimes;
+            </div>`
     }
 }
 customElements.define('farpi-heartbeat', FarPiHeartBeat);
@@ -97,7 +105,7 @@ customElements.define('farpi-heartbeat', FarPiHeartBeat);
 class FarPiPanel extends FarPiElement {
     // Very basic custom component to create a control panel - just a DaisyUI card really
     setup() {
-        this.classList.add("card", "card-bordered", "border-panel", "shadow-xl", "bg-neutral", "text-neutral-content", "backdrop-blur-lg", "bg-white/10");
+        this.classList.add("card", "card-bordered", "border-panel", "shadow-xl", "bg-neutral", "text-neutral-content", "backdrop-blur", "bg-white/10");
     }
 
 }

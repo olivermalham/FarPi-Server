@@ -12,14 +12,15 @@
     <link rel="stylesheet" href="/css/skuttle.css">
 </head>
 
-<body class="w-full h-screen bg-cover bg-center bg-[url('/background-hexagons.png')]">
+<body class="w-full h-screen bg-cover bg-center bg-[url('/hexagons.jpg')]">
 
     <farpi-root server="ws://192.168.0.44:8888/farpi">
-        <div class="navbar bg-primary text-neutral-content h-30">
+        <div class="navbar bg-primary text-neutral-content h-20">
             <div class="flex-1">
-                <img src="skuttle.png" class="h-10"/>
+                <img src="skuttle.png" class="h-20 p-2"/>
             </div>
-            <farpi-heartbeat class="base-300 flex-none"> - CONNECTED - </farpi-heartbeat>
+            <farpi-heartbeat></farpi-heartbeat>
+
         </div>
 
         <div class="grid grid-cols-3 gap-4 m-4">
