@@ -64,6 +64,9 @@ class FarPiKeypad extends FarPiElement {
         this.label = this.innerText;
         this.classList.add("bg-base-100", "rounded-lg", "border", "border-panel", "p-5")
 
+        this.get_mouse_down();
+        this.get_mouse_up();
+
         this.innerHTML =
             `<div class="flex justify-center w-full">
               <kbd class="btn btn-primary text-xl" id="up">&#9650</kbd>
@@ -75,11 +78,56 @@ class FarPiKeypad extends FarPiElement {
             <div class="flex justify-center w-full">
               <kbd class="btn btn-primary text-xl" id="down">&#9660</kbd>
             </div>`
+
         this.onmousedown = this.onmousedown_handler;
         this.onmouseup = this.onmouseup_handler;
         this.ontouchstart = this.onmousedown_handler;
         this.ontouchend = this.onmouseup_handler;
+
         console.log('FarPiKeypad added to page - ' + this.source);
+    }
+
+    get_mouse_down(){
+        let tag = this.getElementsByTagName("mouse_down")[0];
+        let action = this.get_action(tag,"left");
+        this.action_left_down = action[0];
+        this.action_left_arg_down = action[1];
+
+        action = this.get_action(tag,"right");
+        this.action_right_down = action[0];
+        this.action_right_arg_down = action[1];
+
+        action = this.get_action(tag,"up");
+        this.action_up_down = action[0];
+        this.action_up_arg_down = action[1];
+
+        action = this.get_action(tag,"down");
+        this.action_down_down = action[0];
+        this.action_down_arg_down = action[1];
+    }
+
+    get_mouse_up(){
+        let tag = this.getElementsByTagName("mouse_up")[0];
+        let action = this.get_action(tag,"left");
+        this.action_left_up = action[0];
+        this.action_left_arg_up = action[1];
+
+        action = this.get_action(tag,"right");
+        this.action_right_up = action[0];
+        this.action_right_arg_up = action[1];
+
+        action = this.get_action(tag,"up");
+        this.action_up_up = action[0];
+        this.action_up_arg_up = action[1];
+
+        action = this.get_action(tag,"down");
+        this.action_down_up = action[0];
+        this.action_down_arg_up = action[1];
+    }
+
+    get_action(tag, button_name){
+        let button_tag = tag.getElementsByTagName(button_name)[0];
+        return [button_tag.getAttribute("action"), button_tag.innerText];
     }
 
     farPiUpdate(newValue) {
@@ -89,40 +137,48 @@ class FarPiKeypad extends FarPiElement {
         event.preventDefault();
         switch (event.target.id) {
             case "left":
-            console.log('FarPiKeypad left down');
+                console.log('FarPiKeypad left down');
+                this.action(this.action_left_down, `"value":${this.action_left_arg_down}`);
             break;
 
             case "right":
-            console.log('FarPiKeypad right down');
+                console.log('FarPiKeypad right down');
+                this.action(this.action_right_down, `"value":${this.action_right_arg_down}`);
             break;
 
             case "up":
-            console.log('FarPiKeypad up down');
+                console.log('FarPiKeypad up down');
+                this.action(this.action_up_down, `"value":${this.action_up_arg_down}`);
             break;
 
             case "down":
-            console.log('FarPiKeypad down down');
+                console.log('FarPiKeypad down down');
+                this.action(this.action_down_down, `"value":${this.action_down_arg_down}`);
             break;
         }
     }
 
     onmouseup_handler(event) {
         event.preventDefault();
-                switch (event.target.id) {
+        switch (event.target.id) {
             case "left":
-            console.log('FarPiKeypad left up');
+                console.log('FarPiKeypad left up');
+                this.action(this.action_left_up, `"value":${this.action_left_arg_up}`);
             break;
 
             case "right":
-            console.log('FarPiKeypad right up');
+                console.log('FarPiKeypad right up');
+                this.action(this.action_right_up, `"value":${this.action_right_arg_up}`);
             break;
 
             case "up":
-            console.log('FarPiKeypad up up');
+                console.log('FarPiKeypad up up');
+                this.action(this.action_up_up, `"value":${this.action_up_arg_up}`);
             break;
 
             case "down":
-            console.log('FarPiKeypad down up');
+                console.log('FarPiKeypad down up');
+                this.action(this.action_down_up, `"value":${this.action_down_arg_up}`);
             break;
         }
     }

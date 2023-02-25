@@ -37,7 +37,6 @@ class FarPiConsole extends FarPiElement {
 
     farPiUpdate(newValue) {
         let messageBox = this.getElementsByClassName("MessageBox")[0];
-        let commandLine = this.getElementsByClassName("CommandLine")[0];
 
         if(newValue["message"].length > 0){
             messageBox.value = messageBox.value + newValue["message"] + "\n";
@@ -59,7 +58,13 @@ class FarPiConsole extends FarPiElement {
     onenter_handler(event){
         if(event.key === "Enter") {
             let commandLine = this.getElementsByClassName("CommandLine")[0];
+            let messageBox = this.getElementsByClassName("MessageBox")[0];
             this.action("action_command", `"command": "${commandLine.value}"`);
+
+            this.buffer = this.buffer + "SEND > " + commandLine.value + "\n";
+            messageBox.value = this.buffer;
+            messageBox.scrollTop = messageBox.scrollHeight;
+
             commandLine.value = "";
         }
     }

@@ -48,7 +48,6 @@ class BaseConsole(HALComponent):
 
     def action_command(self, command, hal):
         command_parts = command.split()
-        hal.message = f"Command received: {command}"
         print(f"Console command received: {command_parts[0]}")
 
         # Deliberately allow any exceptions thrown here to bubble up

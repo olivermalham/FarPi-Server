@@ -97,7 +97,7 @@ customElements.define('farpi-heartbeat', FarPiHeartBeat);
 class FarPiPanel extends FarPiElement {
     // Very basic custom component to create a control panel - just a DaisyUI card really
     setup() {
-        this.classList.add("card", "card-bordered", "border-panel", "shadow-xl", "bg-neutral", "text-neutral-content");
+        this.classList.add("card", "card-bordered", "border-panel", "shadow-xl", "bg-neutral", "text-neutral-content", "backdrop-blur-lg", "bg-white/10");
     }
 
 }

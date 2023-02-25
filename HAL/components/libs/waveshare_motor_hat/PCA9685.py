@@ -1,8 +1,23 @@
-#!/usr/bin/python
-
 import time
 import math
-import smbus
+
+try:
+    from smbus import SMBus
+
+except ImportError:
+
+    print("FAILED TO IMPORT smbus.SMBus, mocking....")
+
+    class SMBus:
+        def __init__(self, channel):
+            pass
+
+        def write_byte_data(self, address, reg, value):
+            pass
+
+        def read_byte_data(self, address, reg):
+            # Return just a dummy byte so code doesn't break
+            return 0x42
 
 
 # ============================================================================
@@ -30,7 +45,7 @@ class PCA9685:
     __ALLLED_OFF_H = 0xFD
 
     def __init__(self, address, debug=False):
-        self.bus = smbus.SMBus(1)
+        self.bus = SMBus(1)
         self.address = address
         self.debug = debug
         if self.debug:
@@ -88,9 +103,3 @@ class PCA9685:
             self.setPWM(channel, 0, 4095)
         else:
             self.setPWM(channel, 0, 0)
-
-# pwm = PCA9685(0x5f, debug=False)
-# pwm.setPWMFreq(50)
-# pwm.setDutycycle(0,100)
-# pwm.setLevel(1,0)
-# pwm.setLevel(2,1)

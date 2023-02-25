@@ -24,22 +24,34 @@
 
         <div class="grid grid-cols-3 gap-4 m-4">
 
-            <farpi-panel class="col-span-2 backdrop-blur-sm bg-white/10">
+            <farpi-panel class="col-span-2">
                 <div class="card-body flex items-center">
                     <farpi-camera source="http://127.0.0.1:8080"></farpi-camera>
                 </div>
             </farpi-panel>
 
-            <farpi-panel class="backdrop-blur-sm bg-white/10">
+            <farpi-panel>
                 <div class="card-body">
-                    <div class="card-body grid grid-cols-3">
+                    <div class="grid grid-cols-3">
                         <farpi-guage-round source="cpu.load" units="%">CPU Load</farpi-guage-round>
                         <farpi-guage-round source="cpu.temp" scale="1" units="&#8451">CPU Temp</farpi-guage-round>
                         <farpi-guage-round source="cpu.memory" units="%">RAM Used</farpi-guage-round>
                     </div>
                     <farpi-console source="commandLine"></farpi-console>
-                    <farpi-keypad source="fixme?"></farpi-keypad>
-
+                    <farpi-keypad source="motors">
+                        <mouse_down>
+                            <left action="action_run_motor1">-100</left>
+                            <right action="action_run_motor1">100</right>
+                            <up action="action_run_motor2">-100</up>
+                            <down action="action_run_motor2">100</down>
+                        </mouse_down>
+                        <mouse_up>
+                            <left action="action_run_motor1">0</left>
+                            <right action="action_run_motor1">0</right>
+                            <up action="action_run_motor2">0</up>
+                            <down action="action_run_motor2">0</down>
+                        </mouse_up>
+                    </farpi-keypad>
                 </div>
             </farpi-panel>
         </div>

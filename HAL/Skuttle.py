@@ -2,7 +2,7 @@ from .hal import *
 from HAL.components.virtual import *
 from HAL.components.cpu import CPU
 from .base import BaseConsole, BaseHAL
-# from HAL.components.waveshare_motor_hat import WaveshareMotorHat
+from HAL.components.waveshare_motor_hat import WaveshareMotorHat
 
 
 class SkuttleHAL(BaseHAL):
@@ -17,7 +17,7 @@ class SkuttleHAL(BaseHAL):
         self.wave = GeneratorSquareWave()
         self.commandLine = BaseConsole()
 
-        # self.motors = WaveshareMotorHat()
+        self.motors = WaveshareMotorHat()
 
         self.cpu = CPU(temp="/sys/class/thermal/thermal_zone7/temp")
 

@@ -13,14 +13,14 @@ class WaveshareMotorHat(HALComponent):
         :param i2c: I2C address of the controller, defaults to 0x40
         """
         super(HALComponent, self).__init__()
-        self.pwm = PCA9685(i2c)
-        self.pwm.setPWMFreq(freq)
-        self.PWMA = 0
-        self.AIN1 = 1
-        self.AIN2 = 2
-        self.PWMB = 5
-        self.BIN1 = 3
-        self.BIN2 = 4
+        self._pwm = PCA9685(i2c)
+        self._pwm.setPWMFreq(freq)
+        self._PWMA = 0
+        self._AIN1 = 1
+        self._AIN2 = 2
+        self._PWMB = 5
+        self._BIN1 = 3
+        self._BIN2 = 4
         self.motor1_speed = 0
         self.motor2_speed = 0
 
@@ -28,36 +28,36 @@ class WaveshareMotorHat(HALComponent):
         # Output only, nothing to refresh
         pass
 
-    def action_run_motor1(self, speed, hal):
-        hal.message = f"Motor 1 speed set to {speed}"
-        self.motor1_speed = 100 if speed > 100 else -100 if speed < -100 else speed
+    def action_run_motor1(self, value, hal):
+        hal.message = f"Motor 1 speed set to {value}"
+        self.motor1_speed = 100 if value > 100 else -100 if value < -100 else value
 
-        self.pwm.setDutycycle(self.PWMA, self.motor1_speed)
+        self._pwm.setDutycycle(self._PWMA, self.motor1_speed)
         if self.motor1_speed > 0:
-            self.pwm.setLevel(self.AIN1, 0)
-            self.pwm.setLevel(self.AIN2, 1)
+            self._pwm.setLevel(self._AIN1, 0)
+            self._pwm.setLevel(self._AIN2, 1)
         else:
-            self.pwm.setLevel(self.AIN1, 1)
-            self.pwm.setLevel(self.AIN2, 0)
+            self._pwm.setLevel(self._AIN1, 1)
+            self._pwm.setLevel(self._AIN2, 0)
 
-    def action_run_motor2(self, speed, hal):
-        hal.message = f"Motor 2 speed set to {speed}"
-        self.motor2_speed = 100 if speed > 100 else -100 if speed < -100 else speed
+    def action_run_motor2(self, value, hal):
+        hal.message = f"Motor 2 speed set to {value}"
+        self.motor2_speed = 100 if value > 100 else -100 if value < -100 else value
 
-        self.pwm.setDutycycle(self.PWMB, self.motor2_speed)
+        self._pwm.setDutycycle(self._PWMB, self.motor2_speed)
         if self.motor2_speed > 0:
-            self.pwm.setLevel(self.BIN1, 0)
-            self.pwm.setLevel(self.BIN2, 1)
+            self._pwm.setLevel(self._BIN1, 0)
+            self._pwm.setLevel(self._BIN2, 1)
         else:
-            self.pwm.setLevel(self.BIN1, 1)
-            self.pwm.setLevel(self.BIN2, 0)
+            self._pwm.setLevel(self._BIN1, 1)
+            self._pwm.setLevel(self._BIN2, 0)
 
     def action_stop_motor1(self, hal):
         hal.message = f"Stopping motor 1, speed was {self.motor1_speed}"
-        self.pwm.setDutycycle(self.PWMA, 0)
+        self._pwm.setDutycycle(self._PWMA, 0)
         self.motor1_speed = 0
 
     def action_stop_motor2(self, hal):
         hal.message = f"Stopping motor 2, speed was {self.motor2_speed}"
-        self.pwm.setDutycycle(self.PWMA, 0)
+        self._pwm.setDutycycle(self._PWMA, 0)
         self.motor2_speed = 0
