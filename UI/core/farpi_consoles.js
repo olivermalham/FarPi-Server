@@ -23,6 +23,7 @@ class FarPiConsole extends FarPiElement {
         this.source = this.getAttribute("source");
         this.buffer = ""
         this.commandLine = ""
+        this.echo = (this.getAttribute("echo") != null);
 
         this.innerHTML =
             `<div class="form-control">
@@ -44,7 +45,7 @@ class FarPiConsole extends FarPiElement {
         }
 
         if (newValue.message) {
-            this.buffer = this.buffer + "Marvin > " + newValue.message + "\n";
+            this.buffer = this.buffer + newValue.message + "\n";
             messageBox.value = this.buffer;
             messageBox.scrollTop = messageBox.scrollHeight;
         }
@@ -61,9 +62,11 @@ class FarPiConsole extends FarPiElement {
             let messageBox = this.getElementsByClassName("MessageBox")[0];
             this.action("action_command", `"command": "${commandLine.value}"`);
 
-            this.buffer = this.buffer + "SEND > " + commandLine.value + "\n";
-            messageBox.value = this.buffer;
-            messageBox.scrollTop = messageBox.scrollHeight;
+            if(this.echo) {
+                this.buffer = this.buffer + "SEND > " + commandLine.value + "\n";
+                messageBox.value = this.buffer;
+                messageBox.scrollTop = messageBox.scrollHeight;
+            }
 
             commandLine.value = "";
         }

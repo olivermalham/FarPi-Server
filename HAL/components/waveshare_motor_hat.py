@@ -29,6 +29,7 @@ class WaveshareMotorHat(HALComponent):
         pass
 
     def action_run_motor1(self, value, hal):
+        value = int(value)
         hal.message = f"Motor 1 speed set to {value}"
         self.motor1_speed = 100 if value > 100 else -100 if value < -100 else value
 
@@ -41,6 +42,7 @@ class WaveshareMotorHat(HALComponent):
             self._pwm.setLevel(self._AIN2, 0)
 
     def action_run_motor2(self, value, hal):
+        value = int(value)
         hal.message = f"Motor 2 speed set to {value}"
         self.motor2_speed = 100 if value > 100 else -100 if value < -100 else value
 

@@ -17,8 +17,8 @@ class HAL:
 
         # Message to the client. Up to the client to store them if required
         self.message = "FarPi - HAL Initialised"
-
         self.error = ""
+        self.prompt = "FarPi >"
 
     def clean_up(self):
         """ Make sure any resources the HAL uses get released.

@@ -47,7 +47,7 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
         """
         print("WebSocket opened to IP {}".format(self.request.remote_ip))
         FarPiStateHandler.clients.append(self)
-        application.hal.message = f"New connection from {self.request.remote_ip}"
+        application.hal.message = f"{application.hal.prompt} New connection from {self.request.remote_ip}"
         self.write_message(application.hal.serialise())
 
     def on_message(self, message):

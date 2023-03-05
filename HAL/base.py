@@ -58,7 +58,7 @@ class BaseConsole(HALComponent):
     def command_status(self, *args, hal):
         """ Example command method that is exposed to the client """
         print(f"Received console Status command")
-        hal.message = "Status is GREEN"
+        hal.message = f"{hal.prompt} Status is GREEN"
 
 
 class BaseHAL(HAL):

@@ -608,32 +608,6 @@ html {
   justify-content: center;
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
-  transition-duration: 200ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  height: 1.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding-left: 0.563rem;
-  padding-right: 0.563rem;
-  border-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--n) / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--n) / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: hsl(var(--nc) / var(--tw-text-opacity));
-  border-radius: var(--rounded-badge, 1.9rem);
-}
-
 .btn {
   display: inline-flex;
   flex-shrink: 0;
@@ -1082,48 +1056,6 @@ html {
   border-radius: var(--rounded-badge, 1.9rem);
   transition: background, box-shadow var(--animation-input, 0.2s) ease-in-out;
   box-shadow: var(--handleoffsetcalculator) 0 0 2px var(--tglbg) inset, 0 0 0 2px var(--tglbg) inset, var(--togglehandleborder);
-}
-
-.badge-outline {
-  border-color: currentColor;
-  --tw-border-opacity: 0.5;
-  background-color: transparent;
-  color: currentColor;
-}
-
-.badge-outline.badge-primary {
-  --tw-text-opacity: 1;
-  color: hsl(var(--p) / var(--tw-text-opacity));
-}
-
-.badge-outline.badge-secondary {
-  --tw-text-opacity: 1;
-  color: hsl(var(--s) / var(--tw-text-opacity));
-}
-
-.badge-outline.badge-accent {
-  --tw-text-opacity: 1;
-  color: hsl(var(--a) / var(--tw-text-opacity));
-}
-
-.badge-outline.badge-info {
-  --tw-text-opacity: 1;
-  color: hsl(var(--in) / var(--tw-text-opacity));
-}
-
-.badge-outline.badge-success {
-  --tw-text-opacity: 1;
-  color: hsl(var(--su) / var(--tw-text-opacity));
-}
-
-.badge-outline.badge-warning {
-  --tw-text-opacity: 1;
-  color: hsl(var(--wa) / var(--tw-text-opacity));
-}
-
-.badge-outline.badge-error {
-  --tw-text-opacity: 1;
-  color: hsl(var(--er) / var(--tw-text-opacity));
 }
 
 .btn-outline .badge {
@@ -2057,24 +1989,12 @@ html {
   position: static;
 }
 
-.\!absolute {
-  position: absolute !important;
-}
-
-.relative {
-  position: relative;
-}
-
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
 
 .m-4 {
   margin: 1rem;
-}
-
-.\!-m-px {
-  margin: -1px !important;
 }
 
 .inline-block {
@@ -2089,109 +2009,44 @@ html {
   display: grid;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
-.h-\[16rem\] {
-  height: 16rem;
-}
-
-.h-screen {
-  height: 100vh;
-}
-
-.h-full {
-  height: 100%;
-}
-
-.h-auto {
-  height: auto;
-}
-
-.h-40 {
-  height: 10rem;
+.h-12 {
+  height: 3rem;
 }
 
 .h-20 {
   height: 5rem;
 }
 
-.\!h-px {
-  height: 1px !important;
-}
-
-.h-8 {
-  height: 2rem;
-}
-
-.h-14 {
-  height: 3.5rem;
-}
-
-.h-12 {
-  height: 3rem;
-}
-
 .h-6 {
   height: 1.5rem;
 }
 
-.min-h-full {
-  min-height: 100%;
+.h-\[16rem\] {
+  height: 16rem;
 }
 
-.w-full {
-  width: 100%;
+.h-full {
+  height: 100%;
 }
 
-.w-auto {
-  width: auto;
-}
-
-.w-max {
-  width: -moz-max-content;
-  width: max-content;
-}
-
-.\!w-px {
-  width: 1px !important;
-}
-
-.w-8 {
-  width: 2rem;
+.h-screen {
+  height: 100vh;
 }
 
 .w-12 {
   width: 3rem;
 }
 
-.w-28 {
-  width: 7rem;
-}
-
-.w-14 {
-  width: 3.5rem;
-}
-
 .w-6 {
   width: 1.5rem;
 }
 
-.min-w-full {
-  min-width: 100%;
-}
-
-.max-w-none {
-  max-width: none;
+.w-full {
+  width: 100%;
 }
 
 .flex-1 {
   flex: 1 1 0%;
-}
-
-.flex-none {
-  flex: none;
 }
 
 @keyframes spin {
@@ -2202,10 +2057,6 @@ html {
 
 .animate-spin {
   animation: spin 1s linear infinite;
-}
-
-.animate-\[spinner-grow_0\.75s_linear_infinite\] {
-  animation: spinner-grow 0.75s linear infinite;
 }
 
 .grid-cols-3 {
@@ -2246,54 +2097,32 @@ html {
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.\!overflow-hidden {
-  overflow: hidden !important;
-}
-
-.\!whitespace-nowrap {
-  white-space: nowrap !important;
+.rounded-full {
+  border-radius: 9999px;
 }
 
 .rounded-lg {
   border-radius: 0.5rem;
 }
 
-.rounded-full {
-  border-radius: 9999px;
-}
-
 .rounded-xl {
   border-radius: 0.75rem;
-}
-
-.rounded-l {
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
 }
 
 .border {
   border-width: 1px;
 }
 
-.border-4 {
-  border-width: 4px;
-}
-
-.\!border-0 {
-  border-width: 0px !important;
-}
-
 .border-2 {
   border-width: 2px;
 }
 
-.border-solid {
-  border-style: solid;
+.border-4 {
+  border-width: 4px;
 }
 
-.border-neutral-800 {
-  --tw-border-opacity: 1;
-  border-color: rgb(38 38 38 / var(--tw-border-opacity));
+.border-solid {
+  border-style: solid;
 }
 
 .border-current {
@@ -2303,6 +2132,11 @@ html {
 .border-neutral {
   --tw-border-opacity: 1;
   border-color: hsl(var(--n) / var(--tw-border-opacity));
+}
+
+.border-neutral-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(38 38 38 / var(--tw-border-opacity));
 }
 
 .border-r-transparent {
@@ -2343,14 +2177,6 @@ html {
   background-color: rgb(255 255 255 / 0.1);
 }
 
-.bg-current {
-  background-color: currentColor;
-}
-
-.bg-\[url\(\'\/background-hexagons\.png\'\)\] {
-  background-image: url('/background-hexagons.png');
-}
-
 .bg-\[url\(\'\/hexagons\.jpg\'\)\] {
   background-image: url('/hexagons.jpg');
 }
@@ -2367,10 +2193,6 @@ html {
   padding: 0px;
 }
 
-.p-5 {
-  padding: 1.25rem;
-}
-
 .p-1 {
   padding: 0.25rem;
 }
@@ -2379,12 +2201,8 @@ html {
   padding: 0.5rem;
 }
 
-.\!p-0 {
-  padding: 0px !important;
-}
-
-.pr-4 {
-  padding-right: 1rem;
+.p-5 {
+  padding: 1.25rem;
 }
 
 .pr-3 {
@@ -2395,19 +2213,19 @@ html {
   vertical-align: -0.125em;
 }
 
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
+.text-neutral {
+  --tw-text-opacity: 1;
+  color: hsl(var(--n) / var(--tw-text-opacity));
 }
 
 .text-neutral-content {
@@ -2420,35 +2238,16 @@ html {
   color: hsl(var(--p) / var(--tw-text-opacity));
 }
 
-.text-neutral {
-  --tw-text-opacity: 1;
-  color: hsl(var(--n) / var(--tw-text-opacity));
-}
-
-.opacity-0 {
-  opacity: 0;
-}
-
 .shadow-xl {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.backdrop-blur-lg {
-  --tw-backdrop-blur: blur(16px);
-  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-}
-
 .backdrop-blur {
   --tw-backdrop-blur: blur(8px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
           backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
-}
-
-.\!\[clip\:rect\(0\2c 0\2c 0\2c 0\)\] {
-  clip: rect(0,0,0,0) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2460,9 +2259,5 @@ html {
 
   .motion-reduce\:animate-\[spin_1\.5s_linear_infinite\] {
     animation: spin 1.5s linear infinite;
-  }
-
-  .motion-reduce\:animate-\[spinner-grow_1\.5s_linear_infinite\] {
-    animation: spinner-grow 1.5s linear infinite;
   }
 }

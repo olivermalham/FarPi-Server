@@ -1,8 +1,9 @@
 from .hal import *
 from HAL.components.virtual import *
 from HAL.components.cpu import CPU
-from .base import BaseConsole, BaseHAL
+from .base import BaseHAL
 from HAL.components.waveshare_motor_hat import WaveshareMotorHat
+from HAL.components.control_console import ControlConsole
 
 
 class SkuttleHAL(BaseHAL):
@@ -15,7 +16,7 @@ class SkuttleHAL(BaseHAL):
         # We're using the BCM pin scheme
 
         self.wave = GeneratorSquareWave()
-        self.commandLine = BaseConsole()
+        self.commandLine = ControlConsole()
 
         self.motors = WaveshareMotorHat()
 

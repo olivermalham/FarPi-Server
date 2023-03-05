@@ -34,6 +34,7 @@ class FarPi extends HTMLElement {
                 this.socket.farpiControls[i]._farpi = this;
             }
 
+            // FIXME! Should be using arrow functions here, refactor!
             this.socket.onmessage = function (e) {
                 // Remember: "this" refers to the socket, NOT the FarPi object!
                 let state = JSON.parse(e.data);
@@ -104,8 +105,10 @@ customElements.define('farpi-heartbeat', FarPiHeartBeat);
 
 class FarPiPanel extends FarPiElement {
     // Very basic custom component to create a control panel - just a DaisyUI card really
+
     setup() {
         this.classList.add("card", "card-bordered", "border-panel", "shadow-xl", "bg-neutral", "text-neutral-content", "backdrop-blur", "bg-white/10");
+        // this.innerHTML = `<div class="card-body">${this.innerHTML}</div>`;
     }
 
 }
