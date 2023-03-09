@@ -4,6 +4,7 @@ from HAL.components.cpu import CPU
 from .base import BaseHAL
 from HAL.components.waveshare_motor_hat import WaveshareMotorHat
 from HAL.components.control_console import ControlConsole
+from HAL.components.displayhatmini import DisplayHATMini
 
 
 class SkuttleHAL(BaseHAL):
@@ -21,6 +22,8 @@ class SkuttleHAL(BaseHAL):
         self.motors = WaveshareMotorHat()
 
         self.cpu = CPU(temp="/sys/class/thermal/thermal_zone7/temp")
+
+        self.display = DisplayHATMini()
 
     def clean_up(self):
         super(SkuttleHAL, self).clean_up()

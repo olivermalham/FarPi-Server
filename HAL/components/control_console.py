@@ -1,4 +1,3 @@
-import time
 from HAL.hal import *
 
 
