@@ -74,6 +74,52 @@ class BaseHAL(HAL):
         GPIO.setmode(GPIO.BCM)
 
         # Add all the GPIO pins, setting pin and direction
+        self.bcm00 = None
+        self.bcm01 = None
+        self.bcm02 = None
+        self.bcm03 = None
+
+        self.bcm04 = None
+        self.bcm05 = None
+        self.bcm06 = None
+        self.bcm07 = None
+
+        self.bcm08 = None
+        self.bcm09 = None
+        self.bcm10 = None
+        self.bcm11 = None
+
+        self.bcm12 = None
+        self.bcm13 = None
+        self.bcm14 = None
+        self.bcm15 = None
+
+        self.bcm16 = None
+        self.bcm17 = None
+        self.bcm18 = None
+        self.bcm19 = None
+
+        self.bcm20 = None
+        self.bcm21 = None
+        self.bcm22 = None
+        self.bcm23 = None
+
+        self.bcm24 = None
+        self.bcm25 = None
+        self.bcm26 = None
+        self.bcm27 = None
+
+        self.sawtooth = GeneratorSawTooth()
+        self.square_wave = GeneratorSquareWave()
+
+        self.commandLine = BaseConsole()
+
+    def config_basic_pins(self):
+        """
+            Configure all the basic Raspberry Pi pins as outputs. Pulled out from init to give subclasses the
+            choice if they want to use this. Avoids potential conflicts with other components.
+        """
+        # Add all the GPIO pins, setting pin and direction
         self.bcm00 = BaseGPIO(pin_number=0, directon=0)
         self.bcm01 = BaseGPIO(pin_number=1, directon=0)
         self.bcm02 = BaseGPIO(pin_number=2, directon=0)
@@ -109,10 +155,6 @@ class BaseHAL(HAL):
         self.bcm26 = BaseGPIO(pin_number=26, directon=0)
         self.bcm27 = BaseGPIO(pin_number=27, directon=0)
 
-        self.sawtooth = GeneratorSawTooth()
-        self.square_wave = GeneratorSquareWave()
-
-        self.commandLine = BaseConsole()
 
     def clean_up(self):
         super(BaseHAL, self).clean_up()

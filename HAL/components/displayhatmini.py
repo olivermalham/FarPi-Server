@@ -26,6 +26,16 @@ except ImportError:
 
 
 class DisplayHATMini(HALComponent):
+    """
+        Pins:
+        Led r 17
+        Led g 27
+        Led b 22
+        swa 5
+        swb 6
+        swx 16
+        swy 24
+    """
     _screen = None
 
     def __init__(self):
