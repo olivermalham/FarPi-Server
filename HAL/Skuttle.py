@@ -21,7 +21,8 @@ class SkuttleHAL(BaseHAL):
 
         self.motors = WaveshareMotorHat()
 
-        self.cpu = CPU(temp="/sys/class/thermal/thermal_zone7/temp")
+        # Thermal zone 0 for the R.Pi
+        self.cpu = CPU(temp="/sys/class/thermal/thermal_zone0/temp")
 
         self.display = DisplayHATMini()
 
