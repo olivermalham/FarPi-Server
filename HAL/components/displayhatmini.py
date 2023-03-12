@@ -38,7 +38,7 @@ class DisplayHATMini(HALComponent):
     """
     _screen = None
 
-    def __init__(self):
+    def __init__(self, assets):
         super(HALComponent, self).__init__()
         self._dhm = Dhm(None)
         self._init_display()
@@ -49,6 +49,8 @@ class DisplayHATMini(HALComponent):
         self._running = False
 
         self.i = 0
+        self._assets_folder = assets
+        self._background = pygame.image.load(f"{self._assets_folder}/background.png").convert()
 
     def _init_display(self):
         os.putenv('SDL_VIDEODRIVER', 'dummy')
@@ -73,7 +75,7 @@ class DisplayHATMini(HALComponent):
         if self.i > 255:
             self.i = 0
         # TODO: Draw everything in the screen buffer
-        self._screen.fill((self.i, 0, 0))
+        self._screen.blit(self._background, (0, 0))
         self._dhm.screen.blit(self._screen, (0, 0))
         # Draw the demo effect
         self._updatefb()

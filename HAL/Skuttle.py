@@ -24,7 +24,7 @@ class SkuttleHAL(BaseHAL):
         # Thermal zone 0 for the R.Pi
         self.cpu = CPU(temp="/sys/class/thermal/thermal_zone0/temp")
 
-        self.display = DisplayHATMini()
+        self.display = DisplayHATMini(assets="./UI/skuttle/display")
 
         # Configure the pins for the display hat mini
         self.led_r = BaseGPIO(pin_number=17, directon=0)
