@@ -33,26 +33,26 @@ class WaveshareMotorHat(HALComponent):
         hal.message = f"Motor 1 speed set to {value}"
         self.motor1_speed = 100 if value > 100 else -100 if value < -100 else value
 
-        self._pwm.setDutycycle(self._PWMA, self.motor1_speed)
         if self.motor1_speed > 0:
             self._pwm.setLevel(self._AIN1, 0)
             self._pwm.setLevel(self._AIN2, 1)
         else:
             self._pwm.setLevel(self._AIN1, 1)
             self._pwm.setLevel(self._AIN2, 0)
+        self._pwm.setDutycycle(self._PWMA, abs(self.motor1_speed))
 
     def action_run_motor2(self, value, hal):
         value = int(value)
         hal.message = f"Motor 2 speed set to {value}"
         self.motor2_speed = 100 if value > 100 else -100 if value < -100 else value
 
-        self._pwm.setDutycycle(self._PWMB, self.motor2_speed)
         if self.motor2_speed > 0:
             self._pwm.setLevel(self._BIN1, 0)
             self._pwm.setLevel(self._BIN2, 1)
         else:
             self._pwm.setLevel(self._BIN1, 1)
             self._pwm.setLevel(self._BIN2, 0)
+        self._pwm.setDutycycle(self._PWMB, abs(self.motor2_speed))
 
     def action_stop_motor1(self, hal):
         hal.message = f"Stopping motor 1, speed was {self.motor1_speed}"
