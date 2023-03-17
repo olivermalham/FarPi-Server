@@ -35,7 +35,7 @@ class FarPiCamera extends FarPiElement {
             });
         }).then(function () {
             let offer = pc.localDescription;
-            return fetch(`http://127.0.0.1:8080/offer`, {  // TODO: Need to fix this static URL!!!
+            return fetch(`http://192.168.0.44:8080/offer`, {  // TODO: Need to fix this static URL!!!
                 body: JSON.stringify({
                     sdp: offer.sdp,
                     type: offer.type,

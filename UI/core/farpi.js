@@ -47,7 +47,22 @@ class FarPi extends HTMLElement {
                 let heartbeat = document.getElementsByTagName("farpi-heartbeat")[0];
                 heartbeat.disconnected();
             }
+            let test = this.getAttribute("fullscreen");
+            if(this.getAttribute("fullscreen") != null){
+                this.fullscreen();
+            }
         });
+    }
+
+    fullscreen(){
+        document.documentElement
+            .requestFullscreen({ navigationUI: "show" })
+            .then(() => {})
+            .catch((err) => {
+                alert(
+                  `An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`
+                );
+            });
     }
 }
 customElements.define('farpi-root', FarPi);

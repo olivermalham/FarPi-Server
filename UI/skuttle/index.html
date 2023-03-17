@@ -9,12 +9,13 @@
     <script src="/core/farpi_indicators.js"></script>
     <script src="/core/farpi_consoles.js"></script>
     <script src="/core/farpi_camera.js"></script>
+    <script src="/core/farpi_gamepad.js"></script>
     <link rel="stylesheet" href="/css/skuttle.css">
 </head>
 
 <body class="w-full h-screen bg-cover bg-center bg-[url('/hexagons.jpg')]">
 
-    <farpi-root server="ws://192.168.0.45:8888/farpi">
+    <farpi-root server="ws://192.168.0.44:8888/farpi" fullscreen>
         <div class="navbar bg-primary text-neutral-content h-20">
             <div class="flex-1">
                 <img src="skuttle.png" class="h-20 p-2"/>
@@ -27,7 +28,7 @@
 
             <farpi-panel class="col-span-2">
                 <div class="card-body flex items-center">
-                    <farpi-camera source="http://127.0.0.1:8080"></farpi-camera>
+                    <farpi-camera source="http://192.168.0.44:8080"></farpi-camera>
                 </div>
             </farpi-panel>
 
@@ -38,21 +39,24 @@
                         <farpi-guage-round source="cpu.temp" scale="1" units="&#8451">CPU Temp</farpi-guage-round>
                         <farpi-guage-round source="cpu.memory" units="%">RAM Used</farpi-guage-round>
                     </div>
-                    <farpi-console source="commandLine"></farpi-console>
-                    <farpi-keypad source="motors">
-                        <mouse_down>
-                            <left action="action_run_motor1">-100</left>
-                            <right action="action_run_motor1">100</right>
-                            <up action="action_run_motor2">-100</up>
-                            <down action="action_run_motor2">100</down>
-                        </mouse_down>
-                        <mouse_up>
-                            <left action="action_run_motor1">0</left>
-                            <right action="action_run_motor1">0</right>
-                            <up action="action_run_motor2">0</up>
-                            <down action="action_run_motor2">0</down>
-                        </mouse_up>
-                    </farpi-keypad>
+<!--                    <farpi-console source="commandLine"></farpi-console>-->
+<!--                    <farpi-keypad source="motors">-->
+<!--                        <mouse_down>-->
+<!--                            <left action="action_run_motor1">-100</left>-->
+<!--                            <right action="action_run_motor1">100</right>-->
+<!--                            <up action="action_run_motor2">-100</up>-->
+<!--                            <down action="action_run_motor2">100</down>-->
+<!--                        </mouse_down>-->
+<!--                        <mouse_up>-->
+<!--                            <left action="action_run_motor1">0</left>-->
+<!--                            <right action="action_run_motor1">0</right>-->
+<!--                            <up action="action_run_motor2">0</up>-->
+<!--                            <down action="action_run_motor2">0</down>-->
+<!--                        </mouse_up>-->
+<!--                    </farpi-keypad>-->
+                    <farpi-gamepad period="1000">
+
+                    </farpi-gamepad>
                 </div>
             </farpi-panel>
         </div>
