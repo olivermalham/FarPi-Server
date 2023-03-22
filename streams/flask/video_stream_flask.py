@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # This works with normal cameras, but not the Realsense depth stream. Need to figure out how to get hold of that data.
 camera = None
-overlay = False
+overlay = True
 port = 5000
 
 
@@ -31,7 +31,7 @@ def gen_frames():
 @app.route('/')
 def index():
     # Default route just to provide a simple test page
-    return render_template('index.html')
+    return "Nothing here"
 
 
 @app.route('/video_feed')

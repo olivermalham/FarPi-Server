@@ -1,7 +1,10 @@
 
 let pc = null;
 
-class FarPiCamera extends FarPiElement {
+class FarPiCameraWebRTC extends FarPiElement {
+    /*
+        Live video feed from the server, using aiortc and WebRTC
+     */
     setup() {
         this.soucre = this.getAttribute("source");
         this.classList.add("w-full", "h-full");
@@ -10,7 +13,7 @@ class FarPiCamera extends FarPiElement {
                 <video id="video" autoplay muted class="rounded-lg w-full h-full"></video>
             </div>`
         this.start();
-        console.log('FarPiCamera added to page - ' + this.source);
+        console.log('FarPiCameraWebRTC added to page - ' + this.source);
     }
 
     negotiate() {
@@ -83,4 +86,19 @@ class FarPiCamera extends FarPiElement {
     }
 }
 
-customElements.define('farpi-camera', FarPiCamera);
+customElements.define('farpi-camera-webrtc', FarPiCameraWebRTC);
+
+class FarPiCameraMultipart extends FarPiElement {
+    setup() {
+        this.source = this.getAttribute("source");
+        this.classList.add("w-full", "h-full");
+        this.innerHTML =
+            `<div class="w-full h-full">
+                <img src="${this.source}/video_feed" alt="FarPi multipart image video feed from ${this.source}" class="rounded-lg w-full h-full" />
+            </div>`
+        console.log('FarPiCameraMultipart added to page - ' + this.source);
+    }
+
+}
+
+customElements.define('farpi-camera-multipart', FarPiCameraMultipart);

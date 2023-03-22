@@ -123,7 +123,7 @@ class FarPiPanel extends FarPiElement {
 
     setup() {
         this.classList.add("card", "card-bordered", "border-panel", "shadow-xl", "bg-neutral", "text-neutral-content", "backdrop-blur", "bg-white/10");
-        // this.innerHTML = `<div class="card-body">${this.innerHTML}</div>`;
+        this.innerHTML = `<div class="card-body">${this.innerHTML}</div>`;
     }
 
 }

@@ -124,6 +124,27 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
             client.write_message(data)
 
 
+class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
+
+    def set_extra_headers(self, path):
+        # Disable cache
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+
+    def should_return_304(self):
+        # Never return 304, always send the current version of the file. Don't want it cached
+        print("Checking return 304")
+        self.modified = None
+        return False
+
+    def check_etag_header(self):
+        # Disable etag headers to avoid caching
+        print("Checking etag headers...")
+        return False
+
+    def set_etag_header(self):
+        pass
+
+
 if __name__ == "__main__":
     # TODO: Need to implement proper logging
     print("-------------------")
@@ -154,11 +175,11 @@ if __name__ == "__main__":
     if hasattr(application, "ui"):
         print("UI Enabled, setting up URLS...")
         urls += [
-            (r"/core/(.*)", tornado.web.StaticFileHandler,
+            (r"/core/(.*)", StaticFileHandlerNoCache,
              dict(path=settings['static_path'] + 'core/', default_filename='streams/webrtc/index.html')),
-            (r"/css/(.*)", tornado.web.StaticFileHandler,
+            (r"/css/(.*)", StaticFileHandlerNoCache,
              dict(path=settings['static_path'] + application.ui + '/css/', default_filename='streams/webrtc/index.html')),
-            (r"/js/(.*)", tornado.web.StaticFileHandler,
+            (r"/js/(.*)", StaticFileHandlerNoCache,
              dict(path=settings['static_path'] + application.ui + '/js/', default_filename='streams/webrtc/index.html')),
         ]
 

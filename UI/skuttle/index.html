@@ -5,6 +5,7 @@
     <title>Skuttle</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
     <script src="/core/farpi.js"></script>
+    <script src="/core/farpi_layout.js"></script>
     <script src="/core/farpi_switches.js"></script>
     <script src="/core/farpi_indicators.js"></script>
     <script src="/core/farpi_consoles.js"></script>
@@ -15,25 +16,27 @@
 
 <body class="w-full h-screen bg-cover bg-center bg-[url('/hexagons.jpg')]">
 
-    <farpi-root server="ws://192.168.0.44:8888/farpi" fullscreen>
-        <div class="navbar bg-primary text-neutral-content h-20">
-            <div class="flex-1">
-                <img src="skuttle.png" class="h-20 p-2"/>
-            </div>
+    <farpi-root server="ws://192.168.0.44:8888/farpi">
+        <farpi-navbar logo="skuttle.png">
+            <farpi-tab-list>
+                <button class="tab h-12 text-xl">Controls</button>
+                <button class="tab h-12 text-xl tab-active">Sensors</button>
+                <button class="tab h-12 text-xl">Console</button>
+<!--                <button class="btn">Control</button>-->
+<!--                <button class="btn btn-active btn-outline">Sensors</button>-->
+<!--                <button class="btn">Console</button>-->
+            </farpi-tab-list>
+            <!-- Add fullscreen toggle button here -->
             <farpi-heartbeat></farpi-heartbeat>
-
-        </div>
+        </farpi-navbar>
 
         <div class="grid grid-cols-3 gap-4 m-4">
 
             <farpi-panel class="col-span-2">
-                <div class="card-body flex items-center">
-                    <farpi-camera source="http://192.168.0.44:8080"></farpi-camera>
-                </div>
+                    <farpi-camera-multipart source="http://192.168.0.44:8889"></farpi-camera-multipart>
             </farpi-panel>
 
             <farpi-panel>
-                <div class="card-body">
                     <div class="grid grid-cols-3">
                         <farpi-guage-round source="cpu.load" units="%">CPU Load</farpi-guage-round>
                         <farpi-guage-round source="cpu.temp" scale="1" units="&#8451">CPU Temp</farpi-guage-round>
@@ -57,7 +60,6 @@
                     <farpi-gamepad period="1000">
 
                     </farpi-gamepad>
-                </div>
             </farpi-panel>
         </div>
 
