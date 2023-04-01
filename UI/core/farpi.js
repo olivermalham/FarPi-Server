@@ -1,3 +1,6 @@
+let farPiRoot = null;
+let farPiControls = [];
+
 class FarPi extends HTMLElement {
 
     // State attribute is populated by JSON decoding server response
@@ -16,38 +19,36 @@ class FarPi extends HTMLElement {
     }
 
     // Opens a websocket connection to the server, sets up the message handler and finds and configures all
-    // FarPi elements in the DOM
+    // FarPi child elements in the DOM
     connectedCallback() {
         setTimeout(() => {
+
+            // Assume we only have one farpi-root element
+            farPiRoot = this;
+
             let address = this.getAttribute("server");
             this.socket = new WebSocket(address);
             console.log("FarPi connected to " + address);
 
-            // Assumes there is only one farpi-root element, any more will be ignored
-            let farpiRoot = document.getElementsByTagName("farpi-root")[0];
-
             // Get all elements with the _farPiComponent class, automatically added by FarPiElement
-            this.socket.farpiControls = farpiRoot.getElementsByClassName("_farPiComponent");
+            farPiControls = this.getElementsByClassName("_farPiComponent");
 
-            // Attach this FarPi instance to all the FarPiElements
-            for (let i = 0; i < this.socket.farpiControls.length; i++) {
-                this.socket.farpiControls[i]._farpi = this;
-            }
-
-            // FIXME! Should be using arrow functions here, refactor!
-            this.socket.onmessage = function (e) {
-                // Remember: "this" refers to the socket, NOT the FarPi object!
+            // Handler for incoming state updates
+            this.socket.onmessage = (e) => {
                 let state = JSON.parse(e.data);
-                for (let i = 0; i < this.farpiControls.length; i++) {
-                    this.farpiControls[i].farPiUpdate(state);
+                for (let i = 0; i < farPiControls.length; i++) {
+                    farPiControls[i].farPiUpdate(state);
                 }
             }
 
-            this.socket.onclose = function (e) {
+            // Handler for the websocket closing. Just kills the heartbeat animations
+            this.socket.onclose = (e) => {
                 let heartbeat = document.getElementsByTagName("farpi-heartbeat")[0];
                 heartbeat.disconnected();
             }
-            let test = this.getAttribute("fullscreen");
+
+            // Switch to fullscreen if the parameter is set
+            // FIXME: This seems to be blocked by Chrome
             if(this.getAttribute("fullscreen") != null){
                 this.fullscreen();
             }
@@ -68,6 +69,7 @@ class FarPi extends HTMLElement {
 customElements.define('farpi-root', FarPi);
 
 class FarPiElement extends HTMLElement {
+
     // Base class for FarPi elements.
     connectedCallback() {
         // Add classname to make it easy to find all FarPi components
@@ -86,7 +88,7 @@ class FarPiElement extends HTMLElement {
 
     action(action, args){
         // Utility function for RPC calls back to the server
-        this._farpi.action(this.source + "." + action, args);
+        farPiRoot.action(this.source + "." + action, args);
     }
 }
 
