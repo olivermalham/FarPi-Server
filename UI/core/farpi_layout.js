@@ -72,9 +72,9 @@ function farPiTabRefresh(tab_number){
     let tab_btns = document.getElementsByTagName("farpi-tab-btn");
     for (let btn =0; btn < tab_btns.length; btn++){
         if (btn == tab_number) {
-            tab_btns[btn].classList.add("bg-success");
+            tab_btns[btn].classList.add("btn-primary", "btn-active", "border-base-100", "border-4");
         } else {
-            tab_btns[btn].classList.remove("bg-success");
+            tab_btns[btn].classList.remove("btn-primary", "btn-active", "border-base-100", "border-4");
         }
     }
 }

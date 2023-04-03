@@ -24,11 +24,12 @@ class FarPiConsole extends FarPiElement {
         this.buffer = ""
         this.commandLine = ""
         this.echo = (this.getAttribute("echo") != null);
+        this.classList.add("h-full");
 
         this.innerHTML =
-            `<div class="form-control">
-                <label class="input-group input-group-vertical">
-                    <textarea readonly class="textarea textarea-bordered MessageBox w-full h-[16rem] bg-black"></textarea>
+            `<div class="form-control h-full">
+                <label class="input-group input-group-vertical h-full">
+                    <textarea readonly class="textarea textarea-bordered MessageBox w-full h-full bg-black"></textarea>
                     <input type="text" placeholder="Enter command...." class="CommandLine input input-bordered" />
                 </label>
             </div>`

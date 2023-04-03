@@ -93,9 +93,7 @@ class FarPiCameraMultipart extends FarPiElement {
         this.source = this.getAttribute("source");
         this.classList.add("w-full", "h-full");
         this.innerHTML =
-            `<div class="w-full h-full">
-                <img src="${this.source}/video_feed" alt="FarPi multipart image video feed from ${this.source}" class="rounded-lg w-full h-full" />
-            </div>`
+            `<img src="${this.source}/video_feed" alt="FarPi multipart image video feed from ${this.source}" class="rounded-lg" />`
         console.log('FarPiCameraMultipart added to page - ' + this.source);
     }
 
