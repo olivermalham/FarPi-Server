@@ -27,6 +27,13 @@ class FarPi extends HTMLElement {
             farPiRoot = this;
 
             let address = this.getAttribute("server");
+
+            // If no FarPi server specified, default to same as the webserver
+            if(!address){
+                address = `ws://${window.location.hostname}:8888/farpi`;
+                console.log("Defaulting FarPi Address to " + address);
+            }
+
             this.socket = new WebSocket(address);
             console.log("FarPi connected to " + address);
 

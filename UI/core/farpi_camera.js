@@ -85,18 +85,22 @@ class FarPiCameraWebRTC extends FarPiElement {
         }, 500);
     }
 }
-
 customElements.define('farpi-camera-webrtc', FarPiCameraWebRTC);
 
 class FarPiCameraMultipart extends FarPiElement {
     setup() {
         this.source = this.getAttribute("source");
+
+        // If no FarPi server specified, default to same as the webserver
+        if(!this.source){
+            this.source = `http://${window.location.hostname}:8889`;
+            console.log("Defaulting FarPiCameraMultipart Address to " + this.source);
+        }
+
         this.classList.add("w-full", "h-full");
         this.innerHTML =
             `<img src="${this.source}/video_feed" alt="FarPi multipart image video feed from ${this.source}" class="rounded-lg" />`
         console.log('FarPiCameraMultipart added to page - ' + this.source);
     }
-
 }
-
 customElements.define('farpi-camera-multipart', FarPiCameraMultipart);

@@ -18,8 +18,7 @@
 
 <body class="w-full h-screen bg-cover bg-center bg-[url('/hexagons.jpg')]">
 
-    <farpi-root server="ws://192.168.0.44:8888/farpi">
-
+    <farpi-root>
         <farpi-navbar logo="skuttle.png">
             <farpi-tab-list>
                 <farpi-tab-btn tab=0>Control</farpi-tab-btn>
@@ -29,9 +28,7 @@
             <!-- Add fullscreen toggle button here -->
             <farpi-gamepad source="motors" period="200">
                 <axis number="1" action="action_run_motor2" range="100" deadband="10"></axis>
-<!--                <axis number="1" action="action_run_motor1" range="100" deadband="10"></axis>-->
                 <axis number="2" action="action_run_motor1" range="100" deadband="10"></axis>
-<!--                <axis number="3" action="action_run_motor1" range="100" deadband="10"></axis>-->
             </farpi-gamepad>
             <farpi-heartbeat></farpi-heartbeat>
         </farpi-navbar>
@@ -39,7 +36,7 @@
         <farpi-tab number=0>
             <div class="grid grid-rows-1 gap-4 m-4">
                 <farpi-panel class="row-span-1 col-span-1">
-                    <farpi-camera-multipart source="http://192.168.0.44:8889"></farpi-camera-multipart>
+                    <farpi-camera-multipart></farpi-camera-multipart>
                 </farpi-panel>
             </div>
         </farpi-tab>
