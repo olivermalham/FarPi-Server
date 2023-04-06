@@ -57,7 +57,8 @@ class DisplayHATMini(HALComponent):
         os.putenv('SDL_VIDEODRIVER', 'dummy')
         pygame.display.init()  # Need to init for .convert() to work
         pygame.font.init()
-        self._screen = pygame.Surface((640, 480))
+        pygame.display.set_mode((320, 240))
+        self._screen = pygame.Surface((320, 240))
 
     def _updatefb(self):
         self._dhm.st7789.set_window()
@@ -74,7 +75,7 @@ class DisplayHATMini(HALComponent):
         # TODO: Draw everything in the screen buffer
         self._screen.blit(self._background, (0, 0))
         # img = self._font.render('hello', True, (255, 255, 255))
-        # self._screen.blit(pygame.transform.rotate(img, 90), (img.get_width()/2, img.get_height()/2))
-        self._dhm.screen.blit(self._screen, (0, 0))
+        # self._screen.blit(pygame.transform.rotate(self._background, 90), (self._background.get_width()/2, self._background.get_height()/2))
+        # self._dhm.screen.blit(self._screen, (0, 0))
         # Draw the demo effect
         self._updatefb()
