@@ -2,6 +2,7 @@
 import sys
 from flask import Flask, render_template, Response
 import cv2
+import numpy as np
 # Initialize the Flask app
 app = Flask(__name__)
 
@@ -9,6 +10,7 @@ app = Flask(__name__)
 camera = None
 overlay = True
 port = 5000
+orientation = 0  # How many times to rotate image by 90 degrees
 
 
 def gen_frames():
@@ -16,6 +18,7 @@ def gen_frames():
     while True:
         frame_count = frame_count + 1
         success, frame = camera.read()  # read the camera frame
+        np.rot90(frame, orientation)
         if not success:
             break
         else:
@@ -90,7 +93,8 @@ def draw_crosshair(frame):
 if __name__ == "__main__":
     port = int(sys.argv[1])
     camera_number = int(sys.argv[2])
-    overlay = len(sys.argv) >= 4 and sys.argv[3] == "overlay"
-    print(f"Port Number {port}; Camera Number {camera_number}; Overlay? {overlay}")
+    orientation = int(sys.argv[3]) if len(sys.argv) >= 4 else 0
+    overlay = len(sys.argv) >= 5 and sys.argv[4] == "overlay"
+    print(f"Port Number {port}; Camera Number {camera_number}; Orientation {orientation}; Overlay? {overlay}")
     camera = cv2.VideoCapture(camera_number)
     app.run(host='0.0.0.0', port=port, debug=False)  # Note: Setting debug to true causes the video capture to fail
