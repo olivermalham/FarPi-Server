@@ -18,7 +18,7 @@ def gen_frames():
     while True:
         frame_count = frame_count + 1
         success, frame = camera.read()  # read the camera frame
-        np.rot90(frame, orientation)
+        frame = np.rot90(frame, orientation)
         if not success:
             break
         else:
@@ -93,7 +93,7 @@ def draw_crosshair(frame):
 if __name__ == "__main__":
     port = int(sys.argv[1])
     camera_number = int(sys.argv[2])
-    orientation = int(sys.argv[3]) if len(sys.argv) >= 4 else 0
+    orientation = int(sys.argv[3]) # if len(sys.argv) >= 4 else 0
     overlay = len(sys.argv) >= 5 and sys.argv[4] == "overlay"
     print(f"Port Number {port}; Camera Number {camera_number}; Orientation {orientation}; Overlay? {overlay}")
     camera = cv2.VideoCapture(camera_number)
