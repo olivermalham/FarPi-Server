@@ -124,6 +124,42 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
             client.write_message(data)
 
 
+class HTTPStateHandler(tornado.web.RequestHandler):
+    """ HTTP Alternative State Handler
+
+    If for whatever reason the application doesn't want to use websockets, then we can use HTTP instead.
+    Clients will need to poll the server for state updates, there is no push functionality. Far less efficient and
+    responsive, but designed for compatibility with FarPico server running on resource constrained microcontrollers.
+
+    """
+    def get(self):
+        # Just send the curent state as JSON
+        self.write(application.hal.serialise())
+
+    def post(self):
+
+        """ Dispatch a FarPi RPC call into the HAL.
+
+        Message is assumed to be a JSON encoded object with two elements: "action",
+        and "parameters".
+        "Action" is a string matching a HAL component method.
+        "Parameters" is a dictionary that gets passed on as keyword arguments to the HAL
+        component action method
+
+        :param message: JSON
+        :return: Nothing, but an immediate state update broadcast is sent upon completion
+        """
+        parsed_msg = json.loads(self.request.body)
+        print(f"Packet received: {self.request.body}")
+        print(f"Parsed message: {parsed_msg}")
+
+        if "action" in parsed_msg.keys():
+            method_name = parsed_msg["action"]
+            method_parameters = parsed_msg["parameters"] if "parameters" in parsed_msg.keys() else {}
+            application.hal.action(method_name, **method_parameters)
+            self.write(application.hal.serialise())
+
+
 class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
 
     def set_extra_headers(self, path):
@@ -132,13 +168,13 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
 
     def should_return_304(self):
         # Never return 304, always send the current version of the file. Don't want it cached
-        print("Checking return 304")
+        # print("Checking return 304")
         self.modified = None
         return False
 
     def check_etag_header(self):
         # Disable etag headers to avoid caching
-        print("Checking etag headers...")
+        # print("Checking etag headers...")
         return False
 
     def set_etag_header(self):
@@ -170,16 +206,22 @@ if __name__ == "__main__":
         traceback.print_exc()
         exit()
 
-    urls = [(r"/farpi", FarPiStateHandler)]
+    # If the application has the http flag set, then setup the HTTP based state handler, otherwise use websockets
+    if hasattr(application, "http") and application.http:
+        print("Using HTTP state handler")
+        urls = [(r"/farpi", HTTPStateHandler)]
+    else:
+        print("Using websocket state handler")
+        urls = [(r"/farpi", FarPiStateHandler)]
 
     if hasattr(application, "ui"):
         print("UI Enabled, setting up URLS...")
         urls += [
-            (r"/core/(.*)", StaticFileHandlerNoCache,
+            (r"/core/(.*)", tornado.web.StaticFileHandler,
              dict(path=settings['static_path'] + 'core/', default_filename='streams/webrtc/index.html')),
-            (r"/css/(.*)", StaticFileHandlerNoCache,
+            (r"/css/(.*)", tornado.web.StaticFileHandler,
              dict(path=settings['static_path'] + application.ui + '/css/', default_filename='streams/webrtc/index.html')),
-            (r"/js/(.*)", StaticFileHandlerNoCache,
+            (r"/js/(.*)", tornado.web.StaticFileHandler,
              dict(path=settings['static_path'] + application.ui + '/js/', default_filename='streams/webrtc/index.html')),
         ]
 

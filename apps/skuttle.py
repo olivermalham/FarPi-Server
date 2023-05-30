@@ -8,3 +8,4 @@ refresh_ms = 500
 # Create the HAL object that interfaces with the hardware
 hal = SkuttleHAL()
 ui = "skuttle"
+http = True
