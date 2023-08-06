@@ -1,0 +1,4 @@
+Use this command for high-res, pretty low latency video streaming from Razer Kiyo Pro
+
+sudo ustreamer --device=/dev/video1 --host=0.0.0.0 --port=8080 --encoder=HW --resolution=1920x1080 --desired-fps=60 --format=JPEG --buffers=1
+
