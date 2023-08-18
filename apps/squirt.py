@@ -1,11 +1,15 @@
 # The Hardware Abstraction Layer (HAL) package represents the hardware attached to the server
 # that the user will interact with via the UI
 from HAL.Squirt import SquirtHAL
+from HAL.base import RemoteHAL
 
 # Number of milliseconds to delay between updates to clients
 refresh_ms = 500
 
 # Create the HAL object that interfaces with the hardware
-hal = SquirtHAL()
+hal = [SquirtHAL(), RemoteHAL()]
 ui = "squirt"
 http = False
+
+# Name of the application, used when the launcher is scanning the network
+name = "Squirt"

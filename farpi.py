@@ -47,8 +47,7 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
         """
         print("WebSocket opened to IP {}".format(self.request.remote_ip))
         FarPiStateHandler.clients.append(self)
-        application.hal.message = f"{application.hal.prompt} New connection from {self.request.remote_ip}"
-        self.write_message(application.hal.serialise())
+        self.write_message(self.gather_state())
 
     def on_message(self, message):
         """ Called when a websocket message is received by the server.
@@ -65,8 +64,14 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
                 self.dispatch(message)
             except Exception as e:
                 # TODO: Need to handle errors better than this
-                print("Exception:{}".format(e))
-                application.hal.error = f"An Error Occurred - {e}"
+                print(f"Exception:{e}; From: {message}")
+
+                if isinstance(application.hal, list):
+                    for hal in application.hal:
+                        if hasattr(hal, "error"):
+                            hal.error = f"An Error Occurred - {e}"
+                else:
+                    application.hal.error = f"An Error Occurred - {e}"
                 self.broadcast_state()
 
     def on_close(self):
@@ -96,13 +101,15 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
         :return: Nothing, but an immediate state update broadcast is sent upon completion
         """
         parsed_msg = json.loads(message)
-        print(f"Packet received: {message}")
         print(f"Parsed message: {parsed_msg}")
 
         if "action" in parsed_msg.keys():
             method_name = parsed_msg["action"]
             method_parameters = parsed_msg["parameters"] if "parameters" in parsed_msg.keys() else {}
-            application.hal.action(method_name, **method_parameters)
+            if isinstance(application.hal, list):
+                [hal.action(method_name, **method_parameters) for hal in application.hal]
+            else:
+                application.hal.action(method_name, **method_parameters)
             self.broadcast_state()
 
     @classmethod
@@ -110,7 +117,10 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
         """ Refresh the current state of the HAL and send an update to all clients
         :return: Nothing
         """
-        application.hal.refresh()
+        if isinstance(application.hal, list):
+            [hal.refresh() for hal in application.hal]
+        else:
+            application.hal.refresh()
         cls.broadcast_state()
 
     @classmethod
@@ -119,9 +129,28 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
 
         :return: Nothing
         """
-        data = application.hal.serialise()
+        data = cls.gather_state()
+
         for client in cls.clients:
             client.write_message(data)
+
+    @classmethod
+    def gather_state(cls):
+        """ Build a serialised copy of all the HALs in the application
+
+        :return: Nothing
+        """
+        if isinstance(application.hal, list):
+            data = ""
+            # If we have multiple HALs, combine their JSON state. Doesn't handle duplicates.
+            data_parts = [hal.serialise() for hal in application.hal]
+            for part in data_parts:
+                data = data + part[1:-1] + ","
+            data = "{" + data[:-1] + "}"
+        else:
+            data = application.hal.serialise()
+        data = '{"application":"' + application.name + '",' + data[1:]
+        return data
 
 
 class HTTPStateHandler(tornado.web.RequestHandler):
@@ -133,7 +162,7 @@ class HTTPStateHandler(tornado.web.RequestHandler):
 
     """
     def get(self):
-        # Just send the curent state as JSON
+        # Just send the current state as JSON
         self.write(application.hal.serialise())
 
     def post(self):
@@ -146,11 +175,9 @@ class HTTPStateHandler(tornado.web.RequestHandler):
         "Parameters" is a dictionary that gets passed on as keyword arguments to the HAL
         component action method
 
-        :param message: JSON
         :return: Nothing, but an immediate state update broadcast is sent upon completion
         """
         parsed_msg = json.loads(self.request.body)
-        print(f"Packet received: {self.request.body}")
         print(f"Parsed message: {parsed_msg}")
 
         if "action" in parsed_msg.keys():
@@ -218,14 +245,22 @@ if __name__ == "__main__":
         print("UI Enabled, setting up URLS...")
         urls += [
             (r"/core/(.*)", tornado.web.StaticFileHandler,
-             dict(path=settings['static_path'] + 'core/', default_filename='streams/webrtc/index.html')),
+             dict(path=settings['static_path'] + 'core/',
+                  default_filename='streams/webrtc/index.html')),
+            (r"/HUD/(.*)", tornado.web.StaticFileHandler,
+             dict(path=settings['static_path'] + 'HUD/',
+                  default_filename='streams/webrtc/index.html')),
             (r"/css/(.*)", tornado.web.StaticFileHandler,
-             dict(path=settings['static_path'] + application.ui + '/css/', default_filename='streams/webrtc/index.html')),
+             dict(path=settings['static_path'] + application.ui + '/css/',
+                  default_filename='streams/webrtc/index.html')),
             (r"/js/(.*)", tornado.web.StaticFileHandler,
-             dict(path=settings['static_path'] + application.ui + '/js/', default_filename='streams/webrtc/index.html')),
+             dict(path=settings['static_path'] + application.ui + '/js/',
+                  default_filename='streams/webrtc/index.html')),
         ]
 
-    urls += [(r"/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'] + application.ui, default_filename='streams/webrtc/index.html'))]
+    urls += [(r"/(.*)", tornado.web.StaticFileHandler,
+              dict(path=settings['static_path'] + application.ui,
+                   default_filename='streams/webrtc/index.html'))]
 
     # Create the Tornado application, start it listening on the configured port
     app = tornado.web.Application(urls, **settings)
@@ -243,4 +278,7 @@ if __name__ == "__main__":
         # Kick off the Tornado processing loop
         tornado.ioloop.IOLoop.current().start()
     except KeyboardInterrupt:
-        application.hal.clean_up()
+        if isinstance(application.hal, list):
+            [hal.clean_up() for hal in application.hal]
+        else:
+            application.hal.claen_up()

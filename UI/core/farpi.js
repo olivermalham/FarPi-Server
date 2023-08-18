@@ -159,33 +159,6 @@ class FarPiElement extends HTMLElement {
 }
 
 
-class FarPiHeartBeat extends FarPiElement {
-    // Simple active connection indicator
-    setup() {
-        this.classList.add("pr-3");
-        this.label = this.innerText;
-        this.innerHTML =
-            `<div class="flex items-center justify-center text-neutral border border-2 border-neutral p-1 rounded-xl w-12 h-12 items-center">
-                <div class="text-neutral inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
-                    
-                </div>
-            </div>`
-    }
-
-    disconnected() {
-        let spinner = this.getElementsByClassName("animate-spin")[0];
-        if(spinner){
-            spinner.classList.remove("animate-spin")
-        }
-        this.innerHTML = `
-            <div class="flex items-center justify-center text-neutral border border-2 border-neutral p-1 rounded-xl w-12 h-12 items-center text-5xl">
-                    &CircleTimes;
-            </div>`
-    }
-}
-customElements.define('farpi-heartbeat', FarPiHeartBeat);
-
-
 class FarPiPanel extends FarPiElement {
     // Very basic custom component to create a control panel - just a DaisyUI card really
 

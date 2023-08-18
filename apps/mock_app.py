@@ -9,3 +9,6 @@ refresh_ms = 500
 hal = MockPi()
 
 ui = "all_pi"
+
+# Name of the application, used when the launcher is scanning the network
+name = "Mock"

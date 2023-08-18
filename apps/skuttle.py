@@ -9,3 +9,6 @@ refresh_ms = 500
 hal = SkuttleHAL()
 ui = "skuttle"
 http = True
+
+# Name of the application, used when the launcher is scanning the network
+name = "Skuttle"

@@ -8,3 +8,6 @@ refresh_ms = 500
 # Create the HAL object that interfaces with the hardware
 hal = BaseHAL()
 ui = "demo"
+
+# Name of the application, used when the launcher is scanning the network
+name = "Demo"

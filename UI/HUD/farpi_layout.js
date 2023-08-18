@@ -4,9 +4,9 @@ class FarPiNavbar extends FarPiElement {
         this.logo = this.getAttribute("logo");
         this.label = this.innerText;
         this.innerHTML =
-            `<div class="navbar bg-primary text-neutral-content h-20">
-                <div class="flex-1">
-                    <img src="${this.logo}" alt="${this.logo} Logo" class="h-20 p-2"/>
+            `<div class="navbar text-white flex backdrop-blur bg-white/10 pl-5">
+                <div class="text-2xl flex-1">
+                    Squirt v1.0
                 </div>
                 ${this.innerHTML}
             </div>`;
@@ -21,12 +21,13 @@ class FarPiHeartBeat extends FarPiElement {
         this.classList.add("pr-3");
         this.label = this.innerText;
         this.innerHTML =
-            `<div class="flex items-center justify-center text-neutral border border-2 border-neutral p-1 rounded-xl w-12 h-12 items-center">
-                <div class="text-neutral inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+            `<div class="flex items-center justify-center text-neutral  border-neutral p-1 rounded w-12 h-12 items-center">
+                <div class="text-neutral inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                     
                 </div>
             </div>`
     }
+
 
     disconnected() {
         let spinner = this.getElementsByClassName("animate-spin")[0];
@@ -34,7 +35,7 @@ class FarPiHeartBeat extends FarPiElement {
             spinner.classList.remove("animate-spin")
         }
         this.innerHTML = `
-            <div class="flex items-center justify-center text-neutral border border-2 border-neutral p-1 rounded-xl w-12 h-12 items-center text-5xl">
+            <div class="flex items-center justify-center text-neutral p-1 w-12 h-12 items-center text-5xl">
                     &CircleTimes;
             </div>`
     }

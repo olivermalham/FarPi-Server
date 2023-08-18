@@ -2,7 +2,10 @@ class FarPiGamepad extends FarPiElement {
     // NOTE: This currently assumes there is only one gamepad connected, at index 0.
 
     // Support up to 8 analogue axis
-    axis = [null, null, null, null, null, null, null, null, null];
+    axis =  new Array(8).fill(null);
+
+    // Support lots of buttons
+    buttons = new Array(18).fill(null);
 
     setup() {
         this.source = this.getAttribute("source");
@@ -10,7 +13,7 @@ class FarPiGamepad extends FarPiElement {
         if (!this.sample_period) this.sample_period = 1000; // Default to 1 second
         this.classList.add("pr-3");
 
-        // Configure all the axiis that we care about from the inner <axis> tags
+        // Configure all the axis that we care about from the inner <axis> tags
         // To reverse the sense of an axis, make the range value negative
         // Dead band is the +/- value limits that get rounded to 0, so noise at the center point is ignored
         // "number" is the axis number, "action" is the FarPi action to call on "source"
@@ -21,8 +24,15 @@ class FarPiGamepad extends FarPiElement {
             axis.deadband = axis_tags[axis_no].getAttribute("deadband");
             axis.axis = axis_tags[axis_no].getAttribute("number");
             axis.action = axis_tags[axis_no].getAttribute("action");
-
             this.axis[axis.axis] = axis;
+        }
+
+        let button_tags = this.getElementsByTagName("pad_button");
+        for(let button_no = 0; button_no < button_tags.length; button_no++){
+            let button = new FarPiGamepadButton();
+            button.number = button_tags[button_no].getAttribute("number");
+            button.action = button_tags[button_no].getAttribute("action");
+            this.buttons[button.number] = button;
         }
 
         // Show inactive icon initially
@@ -60,13 +70,19 @@ class FarPiGamepad extends FarPiElement {
     read_gamepad() {
         let gamepad = navigator.getGamepads()[0];
         if (!gamepad) return;
-
+        console.log(gamepad)
         for (let i = 0; i < gamepad.axes.length; i++) {
             if (!gamepad.axes[i] || !this.axis[i]) continue;
             let value = gamepad.axes[i] * this.axis[i].range;
             if (value > -this.axis[i].deadband && value < this.axis[i].deadband) value = 0;
             value = value.toFixed(2);
             this.action(this.axis[i].action, `"value":${value}`);
+        }
+
+        for (let i = 0; i < gamepad.buttons.length; i++) {
+            if (!gamepad.buttons[i] || !this.buttons[i]) continue;
+            let value = gamepad.buttons[i].value;
+            this.action(this.buttons[i].action, `"value":${value}`);
         }
     }
 }
@@ -77,5 +93,9 @@ class FarPiGamepadAxis {
     range = 1;
     deadband = 0;
     axis = null;
+    action = "";
+}
+
+class FarPiGamepadButton {
     action = "";
 }

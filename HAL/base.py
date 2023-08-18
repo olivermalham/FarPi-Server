@@ -61,6 +61,25 @@ class BaseConsole(HALComponent):
         hal.message = f"{hal.prompt} Status is GREEN"
 
 
+class BaseFlag(HALComponent):
+    """ Very simple binary flag, has no direct impact on hardware. """
+    def __init__(self):
+        super(HALComponent, self).__init__()
+        self.state = False
+
+    def refresh(self, hal):
+        pass
+
+    def action_toggle(self, hal):
+        self.state = not self.state
+
+    def action_enable(self, hal):
+        self.state = True
+
+    def action_disable(self, hal):
+        self.state = False
+
+
 class BaseHAL(HAL):
     """ Concrete HAL class for accessing basic Raspberry Pi hardware.
 
@@ -114,6 +133,8 @@ class BaseHAL(HAL):
 
         self.commandLine = BaseConsole()
 
+        self.logging = BaseFlag()
+
     def config_basic_pins(self):
         """
             Configure all the basic Raspberry Pi pins as outputs. Pulled out from init to give subclasses the
@@ -155,7 +176,46 @@ class BaseHAL(HAL):
         self.bcm26 = BaseGPIO(pin_number=26, directon=0)
         self.bcm27 = BaseGPIO(pin_number=27, directon=0)
 
-
     def clean_up(self):
         super(BaseHAL, self).clean_up()
         GPIO.cleanup()
+
+
+class RemoteHAL(HAL):
+    """ Connects to a HAL running on a microcontroller via serial link.
+    Passes all actions through, fetches state updates.
+    """
+
+    def action(self, name, **kwargs):
+        """ Dispatch an action received via the WebSockets server
+
+        Name is treated as a valid python attribute reference. It is assumed that
+        the FarPi server has already checked the string for security.
+
+        :param name: String containing the name of the action to invoke
+        :param kwargs: One or more key word arguments, decoded from JSON
+        :return: Nothing
+        """
+        pass
+
+    def serialise(self):
+        """ Encode the state vector as a JSON object
+
+        :return: String containing the JSON encoded state vector
+        """
+        result = '{"dummy": "data"}'
+
+        # Clear the message text now that it's been serialised and sent to the client.
+        self.message = ""
+        self.error = ""
+
+        return result
+
+    def refresh(self):
+        """ Refresh the state vector to the current hardware state.
+            Runs through all active HALComponents and call their refresh methods
+
+        :return: Nothing
+        """
+        self.cycle += 1
+        pass
