@@ -4,10 +4,10 @@ from HAL.Squirt import SquirtHAL
 from HAL.base import RemoteHAL
 
 # Number of milliseconds to delay between updates to clients
-refresh_ms = 500
+refresh_ms = 50
 
 # Create the HAL object that interfaces with the hardware
-hal = [SquirtHAL(), RemoteHAL()]
+hal = [SquirtHAL(), RemoteHAL(port="/dev/ttyACM0", device_name="motion")]
 ui = "squirt"
 http = False
 

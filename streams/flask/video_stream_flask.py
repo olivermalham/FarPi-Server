@@ -19,6 +19,7 @@ def gen_frames():
         frame_count = frame_count + 1
         success, frame = camera.read()  # read the camera frame
         frame = np.rot90(frame, orientation)
+        frame = cv2.resize(frame, (466, 466))
         if not success:
             break
         else:
@@ -98,3 +99,5 @@ if __name__ == "__main__":
     print(f"Port Number {port}; Camera Number {camera_number}; Orientation {orientation}; Overlay? {overlay}")
     camera = cv2.VideoCapture(camera_number)
     app.run(host='0.0.0.0', port=port, debug=False)  # Note: Setting debug to true causes the video capture to fail
+
+# TicWatch screen: 466*466

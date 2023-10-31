@@ -1,5 +1,6 @@
 from .hal import *
 from HAL.components.virtual import *
+import serial
 
 
 # If we can't import the RPI GPIO functionality, assume we're mocking
@@ -62,7 +63,9 @@ class BaseConsole(HALComponent):
 
 
 class BaseFlag(HALComponent):
-    """ Very simple binary flag, has no direct impact on hardware. """
+    """ Very simple binary flag, has no direct impact on hardware.
+    Used for passing state between FarPi clients"""
+
     def __init__(self):
         super(HALComponent, self).__init__()
         self.state = False
@@ -186,36 +189,78 @@ class RemoteHAL(HAL):
     Passes all actions through, fetches state updates.
     """
 
+    def __init__(self, port, device_name):
+        # Make sure the HAL system is initialised fully first
+        super(RemoteHAL, self).__init__()
+        self._data = "{}"
+        self._buffer = ""
+        self._path = port
+        self._device = device_name
+
+        try:
+            # Non-blocking
+            self._com_port = serial.Serial(port, 115200, timeout=0)
+            print(f"RemoteHAL {self._device} Started on {self._path}")
+        except serial.serialutil.SerialException:
+            print(f"FAILED TO OPEN SERIAL PORT {port}")
+            self._com_port = None
+
     def action(self, name, **kwargs):
         """ Dispatch an action received via the WebSockets server
-
-        Name is treated as a valid python attribute reference. It is assumed that
-        the FarPi server has already checked the string for security.
+        Rebuild the action string and pass it through to the attached microcontroller
 
         :param name: String containing the name of the action to invoke
         :param kwargs: One or more key word arguments, decoded from JSON
         :return: Nothing
         """
-        pass
+
+        # Remote device does not handle component names, so filter them out
+        if not self._device.startswith(name):
+            return
+
+        # Build arguments back into a JSON action string and send through to the Pico
+        args = ""
+        for param, value in kwargs:
+            args = args + '"' + param + '":"' + value + '",'
+        action_string = '{"action":"' + name + '", "parameters":{' + args[:-1] + '}}\n'
+        if self._com_port:
+            self._com_port.write(action_string)
+        else:
+            print(f"RemoteHAL: {action_string}")
 
     def serialise(self):
-        """ Encode the state vector as a JSON object
+        """ Just return the latest JSON packet fetched from the microcontroller
 
         :return: String containing the JSON encoded state vector
         """
-        result = '{"dummy": "data"}'
 
         # Clear the message text now that it's been serialised and sent to the client.
         self.message = ""
         self.error = ""
-
-        return result
+        # Wrap the state data from the device into JSON structure that
+        return '{"' + self._device + '":' + self._data + '}'
 
     def refresh(self):
-        """ Refresh the state vector to the current hardware state.
-            Runs through all active HALComponents and call their refresh methods
+        """ Read the latest state data from the serial link and store it.
 
         :return: Nothing
         """
+        if self._com_port:
+            new_data = self._com_port.read(20)  # None blocking read, accumulate into buffer
+            self._buffer += new_data.decode(encoding='utf-8', errors='strict')
+
+        # Data should always be a one-line JSON string
+        if "\n" in self._buffer:
+            parts = self._buffer.split("\r\n")
+            self._data = parts[0] if self._valid_json(parts[0]) else self._data
+            self._buffer = parts[1]
+            print(f"RemoteHAL data: {self._data}", flush=True)
         self.cycle += 1
-        pass
+
+    @staticmethod
+    def _valid_json(json_data):
+        try:
+            json.loads(json_data)
+        except ValueError as err:
+            return False
+        return True
