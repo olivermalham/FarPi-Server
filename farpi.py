@@ -131,7 +131,7 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
         """
         data = cls.gather_state()
 
-        # print(data)
+        print(data)
 
         for client in cls.clients:
             client.write_message(data)

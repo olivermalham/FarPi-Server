@@ -201,6 +201,7 @@ class RemoteHAL(HAL):
             # Non-blocking
             self._com_port = serial.Serial(port, 115200, timeout=0)
             print(f"RemoteHAL {self._device} Started on {self._path}")
+            # self.action(self._device+".connect")
         except serial.serialutil.SerialException:
             print(f"FAILED TO OPEN SERIAL PORT {port}")
             self._com_port = None
@@ -220,6 +221,7 @@ class RemoteHAL(HAL):
 
         # Build arguments back into a JSON action string and send through to the Pico
         args = ""
+        name = name.replace(self._device+".", "")
         for param, value in kwargs:
             args = args + '"' + param + '":"' + value + '",'
         action_string = '{"action":"' + name + '", "parameters":{' + args[:-1] + '}}\n'
@@ -237,6 +239,10 @@ class RemoteHAL(HAL):
         # Clear the message text now that it's been serialised and sent to the client.
         self.message = ""
         self.error = ""
+
+        if "action_" in self._data:
+            self._data.replace("action_", self._device + ".action_")
+
         # Wrap the state data from the device into JSON structure that
         return '{"' + self._device + '":' + self._data + '}'
 
@@ -246,15 +252,16 @@ class RemoteHAL(HAL):
         :return: Nothing
         """
         if self._com_port:
-            new_data = self._com_port.read(20)  # None blocking read, accumulate into buffer
+            new_data = self._com_port.read(2000)  # None blocking read, accumulate into buffer
             self._buffer += new_data.decode(encoding='utf-8', errors='strict')
+            # print(f"Read data: {self._buffer}")
 
         # Data should always be a one-line JSON string
         if "\n" in self._buffer:
             parts = self._buffer.split("\r\n")
             self._data = parts[0] if self._valid_json(parts[0]) else self._data
             self._buffer = parts[1]
-            print(f"RemoteHAL data: {self._data}", flush=True)
+            print(f"RemoteHAL {self._device}: {self._data}", flush=True)
         self.cycle += 1
 
     @staticmethod

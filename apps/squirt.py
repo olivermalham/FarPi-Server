@@ -7,7 +7,7 @@ from HAL.base import RemoteHAL
 refresh_ms = 50
 
 # Create the HAL object that interfaces with the hardware
-hal = [SquirtHAL(), RemoteHAL(port="/dev/ttyACM0", device_name="motion")]
+hal = [SquirtHAL(), RemoteHAL(port="/dev/ttyACM0", device_name="squirt_io")]
 ui = "squirt"
 http = False
 
