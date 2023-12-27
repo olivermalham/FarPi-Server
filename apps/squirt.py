@@ -11,5 +11,9 @@ hal = [SquirtHAL(), RemoteHAL(port="/dev/ttyACM0", device_name="squirt_io")]
 ui = "squirt"
 http = False
 
+# SSL files
+cert = "./host.crt"
+key = "./host.key"
+
 # Name of the application, used when the launcher is scanning the network
 name = "Squirt"

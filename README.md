@@ -88,4 +88,7 @@ FarPi is still in the very early stages of development, and there is much left t
 6. Create a pipfile and get the code into a decent shape for others to use
 7. Review documentation
 8. Complete review, cleanup and refactor of the camera streams system
-9. 
+
+
+## SSL Cert Generation
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout host.key -out host.crt

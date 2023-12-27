@@ -77,9 +77,9 @@ class FarPi extends HTMLElement {
             // If no FarPi server specified, default to same as the webserver
             if(!address){
                 if(this.http){
-                    this.address = `http://${window.location.hostname}:8888/farpi`;
+                    this.address = `https://${window.location.hostname}:8888/farpi`;
                 } else {
-                    this.address = `ws://${window.location.hostname}:8888/farpi`;
+                    this.address = `wss://${window.location.hostname}:8888/farpi`;
                 }
                 console.log("Defaulting FarPi Address to " + this.address);
             } else {

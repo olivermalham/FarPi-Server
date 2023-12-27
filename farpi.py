@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import sys
+import ssl
 import importlib
 import logging
 import traceback
@@ -131,7 +132,7 @@ class FarPiStateHandler(tornado.websocket.WebSocketHandler):
         """
         data = cls.gather_state()
 
-        print(data)
+        # print(data)
 
         for client in cls.clients:
             client.write_message(data)
@@ -210,6 +211,12 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
         pass
 
 
+def ssl_config(cert, key):
+    ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    ssl_ctx.load_cert_chain(certfile=cert, keyfile=key)
+    return ssl_ctx
+
+
 if __name__ == "__main__":
     # TODO: Need to implement proper logging
     print("-------------------")
@@ -234,6 +241,11 @@ if __name__ == "__main__":
         print("Error loading {}!".format(app_name))
         traceback.print_exc()
         exit()
+
+    ssl_ctx = None
+    if hasattr(application, "cert") and hasattr(application, "key"):
+        ssl_ctx = ssl_config(application.cert, application.key)
+        settings["ssl_options"] = ssl_ctx
 
     # If the application has the http flag set, then setup the HTTP based state handler, otherwise use websockets
     if hasattr(application, "http") and application.http:
@@ -269,7 +281,10 @@ if __name__ == "__main__":
     if hasattr(application, "port"):
         port = application.port
 
-    app.listen(port)
+    if ssl_ctx is not None:
+        app.listen(port, ssl_options=ssl_ctx)
+    else:
+        app.listen(port)
 
     # Create a periodic callback for refreshing the HAL and broadcasting it to all connected clients
     periodic = tornado.ioloop.PeriodicCallback(FarPiStateHandler.refresh, application.refresh_ms)
