@@ -67,10 +67,34 @@ class FarPiGamepad extends FarPiElement {
       console.log("Gamepad disconnected");
     }
 
+    // Steamdeck controls mapping
+    //
+    // Axis 0 - left sick horizontal
+    // Axis 1 - left stick vertical
+    // Axis 2 - right sick horizontal
+    // Axis 3 - right stick vertical
+
+    // Buttons
+    // 0 - A
+    // 1 - B
+    // 2 - X
+    // 3 - Y
+    // 4 - L1
+    // 5 - R1
+    // 6 - L2 (analog)
+    // 7 - R2 (analog)
+    // 10 - Left stick push
+    // 11 - Right stick push
+    // 12 - Dpad up
+    // 13 - Dpad down
+    // 14 - Dpad left
+    // 15 - Dpad right
+
     read_gamepad() {
         let gamepad = navigator.getGamepads()[0];
         if (!gamepad) return;
-        console.log(gamepad)
+        // console.log(gamepad)
+
         for (let i = 0; i < gamepad.axes.length; i++) {
             if (!gamepad.axes[i] || !this.axis[i]) continue;
             let value = gamepad.axes[i] * this.axis[i].range;
@@ -80,9 +104,11 @@ class FarPiGamepad extends FarPiElement {
         }
 
         for (let i = 0; i < gamepad.buttons.length; i++) {
-            if (!gamepad.buttons[i] || !this.buttons[i]) continue;
+            // if (!gamepad.buttons[i] || !this.buttons[i]) continue;
             let value = gamepad.buttons[i].value;
-            this.action(this.buttons[i].action, `"value":${value}`);
+            // this.action(this.buttons[i].action, `"value":${value}`);
+            if (value)
+                console.log("Button pressed: " + i + "; " + value);
         }
     }
 }
